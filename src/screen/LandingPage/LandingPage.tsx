@@ -1,12 +1,12 @@
-// NewPage.tsx
+// LandingPage.tsx
 import React from 'react';
 import { View, Text, Button } from 'react-native';
 
-interface NewPageProps {
-  navigation: any; // Use the appropriate type for navigation
+interface LandingPageProps {
+  navigation: any; 
 }
 
-const NewPage: React.FC<NewPageProps> = ({ navigation }) => {
+const LandingPage: React.FC<LandingPageProps> = ({ navigation }) => {
   return (
     <View>
       <Text>This is the New Page</Text>
@@ -18,4 +18,4 @@ const NewPage: React.FC<NewPageProps> = ({ navigation }) => {
   );
 };
 
-export default NewPage;
+export default LandingPage;
