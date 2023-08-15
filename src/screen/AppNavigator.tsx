@@ -1,5 +1,5 @@
 // AppNavigator.tsx
-import React from 'react';
+ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import MyOnboarding from '../screen/LandingPage/MyOnboarding'; // Import MyOnboarding
 import LandingPage from '../screen/LandingPage/LandingPage';
