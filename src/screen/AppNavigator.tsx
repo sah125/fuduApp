@@ -6,12 +6,15 @@ import LandingPage from "../screen/LandingPage/LandingPage";
 import HomePage from "./HomePage";
 import LoginScreen from "./accounts/Login";
 import PhoneVerificationScreen from "./accounts/PhoneVerication";
+import BottomTabNavigator from "./tabs/BottomTabNavigator";
 
 const Stack = createStackNavigator();
 
 const AppNavigator: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Tabs" component={BottomTabNavigator} />
+
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen
         name="Phone-verification"
