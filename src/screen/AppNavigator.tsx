@@ -6,6 +6,8 @@ import LandingPage from "../screen/LandingPage/LandingPage";
 import HomePage from "./HomePage";
 import LoginScreen from "./accounts/Login";
 import PhoneVerificationScreen from "./accounts/PhoneVerication";
+import ForgottenPasswordScreen from "./accounts/ForgottenPassword";
+import ResetPasswordScreen from "./accounts/ResetPassword";
 
 const Stack = createStackNavigator();
 
@@ -17,6 +19,16 @@ const AppNavigator: React.FC = () => {
         name="Phone-verification"
         component={PhoneVerificationScreen}
       />
+
+      <Stack.Screen
+        name="ForgottenPassword"
+        component={ForgottenPasswordScreen}
+      />
+      <Stack.Screen
+       name ="ResetPassword"
+       component={ResetPasswordScreen}
+       />
+
 
       <Stack.Screen name="Onboarding" component={MyOnboarding} />
       <Stack.Screen name="LandingPage" component={LandingPage} />
