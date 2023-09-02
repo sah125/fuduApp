@@ -3,11 +3,16 @@ import { View, Text, Image, StyleSheet, Dimensions, ImageBackground, StatusBar, 
 import Swiper from 'react-native-swiper-flatlist';
 import { useNavigation } from "@react-navigation/native"; // Import useNavigation
 
+
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-const MyOnboarding = () => {
-  const navigation = useNavigation();
+interface HomePageProps {
+  navigation: any;
+}
+
+const MyOnboarding: React.FC<HomePageProps> = ({ navigation }) => {
+ 
   return (
     <Swiper style={styles.wrapper} >
         <View style={styles.slide}>
@@ -133,7 +138,6 @@ const styles = StyleSheet.create({
     left: 60, 
   },
   textContainer: {
-   
     position: 'relative',
     right: 40,
     margin: 20,
