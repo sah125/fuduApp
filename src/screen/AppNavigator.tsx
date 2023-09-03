@@ -7,12 +7,9 @@ import HomePage from "./HomePage";
 import LoginScreen from "./accounts/Login";
 import SignupScreen from "./accounts/Signup";
 import PhoneVerificationScreen from "./accounts/PhoneVerication";
-<<<<<<< HEAD
 import ForgottenPasswordScreen from "./accounts/ForgottenPassword";
 import ResetPasswordScreen from "./accounts/ResetPassword";
-=======
 import BottomTabNavigator from "./tabs/BottomTabNavigator";
->>>>>>> 8597ed46b487f2c7a4d782b817a38ace46fd5e80
 
 const Stack = createStackNavigator();
 
