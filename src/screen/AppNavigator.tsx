@@ -5,6 +5,7 @@ import MyOnboarding from "../screen/LandingPage/MyOnboarding";
 import LandingPage from "../screen/LandingPage/LandingPage";
 import HomePage from "./HomePage";
 import LoginScreen from "./accounts/Login";
+import SignupScreen from "./accounts/Signup";
 import PhoneVerificationScreen from "./accounts/PhoneVerication";
 <<<<<<< HEAD
 import ForgottenPasswordScreen from "./accounts/ForgottenPassword";
@@ -18,9 +19,12 @@ const Stack = createStackNavigator();
 const AppNavigator: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+    
+      <Stack.Screen name="Signup" component={SignupScreen} />
+        {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+   <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="Tabs" component={BottomTabNavigator} />
 
-      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen
         name="Phone-verification"
         component={PhoneVerificationScreen}

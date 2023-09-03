@@ -8,7 +8,6 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
-
 import { createStackNavigator } from "@react-navigation/stack";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -27,11 +26,10 @@ const Stack = createStackNavigator();
 const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
   const dispatch = useDispatch();
   const { isLoggedIn, error } = useSelector((state: any) => state?.auth);
 
@@ -47,11 +45,11 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
       setPasswordError(true);
       return;
     }
-
     if (!isValidEmail(username)) {
-      setEmailError(true);
+      setUsernameError(true);
       return;
     }
+
     const model: ILogin = {
       username: username,
       password: password,
@@ -84,19 +82,30 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.containerHeader}>
         <Text style={styles.headerText}>Welcome Back</Text>
-        <Text style={styles.subTitile}>Login to your account</Text>
+        <Text style={styles.subTitle}>Login to your account</Text>
       </TouchableOpacity>
 
       <TextInput
-        style={[styles.input, usernameError || emailError ? styles.inputError : null]}
-        placeholder="Username"
+        style={[
+          styles.input,
+          (usernameError || passwordError) && styles.inputError,
+        ]}
+        placeholder="Username or Email" // Placeholder for username or email
         value={username}
         onChangeText={(text) => {
           setUsername(text);
           setUsernameError(false);
-          setEmailError(false);
+          setPasswordError(false);
         }}
       />
+      <TouchableOpacity>
+        {usernameError && (
+          <Text style={styles.errorLabel}>
+            Please enter a valid username or email
+          </Text>
+        )}
+      </TouchableOpacity>
+
       <View style={styles.passwordInput}>
         <TextInput
           style={[styles.input, passwordError && styles.inputError]}
@@ -108,6 +117,7 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
             setPasswordError(false);
           }}
         />
+
         <TouchableOpacity
           onPress={() => setShowPassword(!showPassword)}
           style={styles.eyeIcon}
@@ -118,6 +128,11 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
             color="#2B0100"
           />
         </TouchableOpacity>
+      </View>
+      <View>
+        {passwordError && (
+          <Text style={styles.errorLabel}>Please enter a valid password</Text>
+        )}
       </View>
       <View style={styles.row}>
         <Switch
@@ -173,7 +188,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginBottom: 20,
   },
-  subTitile: {
+  subTitle: {
     color: "#848282",
     marginBottom: 50,
     textAlign: "center",
@@ -246,6 +261,12 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 20,
     backgroundColor: "#6285F6",
+  },
+  errorLabel: {
+    color: "red",
+    textAlign: "left",
+    fontSize: 14,
+    marginTop: 5,
   },
 });
 
