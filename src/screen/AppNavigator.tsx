@@ -4,9 +4,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 import MyOnboarding from "../screen/LandingPage/MyOnboarding";
 import LandingPage from "../screen/LandingPage/LandingPage";
 import HomePage from "./HomePage";
-// import LoginScreen from "./accounts/Login";
+import LoginScreen from "./accounts/Login";
 import SignupScreen from "./accounts/Signup";
 import PhoneVerificationScreen from "./accounts/PhoneVerication";
+import BottomTabNavigator from "./tabs/BottomTabNavigator";
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,9 @@ const AppNavigator: React.FC = () => {
     
       <Stack.Screen name="Signup" component={SignupScreen} />
         {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+   <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Screen name="Tabs" component={BottomTabNavigator} />
+
       <Stack.Screen
         name="Phone-verification"
         component={PhoneVerificationScreen}
