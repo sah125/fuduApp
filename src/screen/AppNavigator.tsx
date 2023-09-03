@@ -16,11 +16,10 @@ const Stack = createStackNavigator();
 const AppNavigator: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-    
       <Stack.Screen name="Signup" component={SignupScreen} />
-        {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
-   <Stack.Screen name="Login" component={LoginScreen} />
-    <Stack.Screen name="Tabs" component={BottomTabNavigator} />
+      {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Tabs" component={BottomTabNavigator} />
 
       <Stack.Screen
         name="Phone-verification"
@@ -31,11 +30,7 @@ const AppNavigator: React.FC = () => {
         name="ForgottenPassword"
         component={ForgottenPasswordScreen}
       />
-      <Stack.Screen
-       name ="ResetPassword"
-       component={ResetPasswordScreen}
-       />
-
+      <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
 
       <Stack.Screen name="Onboarding" component={MyOnboarding} />
       <Stack.Screen name="LandingPage" component={LandingPage} />
