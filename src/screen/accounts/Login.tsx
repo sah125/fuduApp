@@ -13,10 +13,17 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { login } from "../../../redux/Actions/auth.Actions";
 import { ILogin } from "../../../core/login";
+import { useNavigation } from '@react-navigation/native';
+
+interface LoginPageProps {
+  navigation: any; 
+}
+
+
 
 const Stack = createStackNavigator();
 
-const LoginScreen = () => {
+const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
@@ -25,6 +32,8 @@ const LoginScreen = () => {
   const [passwordError, setPasswordError] = useState(false);
   const dispatch = useDispatch();
   const { isLoggedIn, error } = useSelector((state: any) => state?.auth);
+
+ 
 
   const handleLogin = () => {
     // Validation logic
@@ -56,6 +65,13 @@ const LoginScreen = () => {
     return emailRegex.test(email);
   };
 
+  //const navigation = useNavigation();
+
+  const handleForgotPassword = () => {
+   // navigation.navigate('ForgottenPassword','');
+
+  };
+  
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backIcon}>
@@ -123,7 +139,7 @@ const LoginScreen = () => {
           value={rememberMe}
           onValueChange={(newValue) => setRememberMe(newValue)}
         />
-        <TouchableOpacity style={styles.forgotPassword}>
+        <TouchableOpacity style={styles.forgotPassword} onPress={() => navigation.navigate('ForgottenPassword')}>
           <Text style={styles.forgotText}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
