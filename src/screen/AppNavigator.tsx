@@ -5,7 +5,10 @@ import MyOnboarding from "../screen/LandingPage/MyOnboarding";
 import LandingPage from "../screen/LandingPage/LandingPage";
 import HomePage from "./HomePage";
 import LoginScreen from "./accounts/Login";
+import SignupScreen from "./accounts/Signup";
 import PhoneVerificationScreen from "./accounts/PhoneVerication";
+import ForgottenPasswordScreen from "./accounts/ForgottenPassword";
+import ResetPasswordScreen from "./accounts/ResetPassword";
 import BottomTabNavigator from "./tabs/BottomTabNavigator";
 
 const Stack = createStackNavigator();
