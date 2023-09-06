@@ -55,7 +55,10 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
       password: password,
     };
 
-    login(model);
+    navigation.navigate("Tabs");
+
+
+    // login(model);
     // Perform actual login here
     console.log("Login successful!");
   };
@@ -75,8 +78,8 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backIcon}>
-        <View style={styles.backIconContainer}>
-          <Icon name="arrow-back" size={24} color="#2B0100" />
+        <View style={styles.backIconContainer} >
+          <Icon onPress={() => navigation.navigate('Onboarding')} name="arrow-back" size={24} color="#2B0100" />
           <Text style={styles.backText}>Back</Text>
         </View>
       </TouchableOpacity>

@@ -25,7 +25,7 @@ const HomePage: React.FC<HomePageProps> = ({ navigation }) => {
         </Text>
         <Text style={styles.subtext}>Contrary to popular belief borem text. it has roots clintock</Text>
         <View style={styles.buttonContainer}>
-          <CustomButton title="Get Started" onPress={() => navigation.goBack()} />
+          <CustomButton title="Get Started" onPress={() => navigation.navigate('Login')} />
         </View>
       </View>
     </View>
