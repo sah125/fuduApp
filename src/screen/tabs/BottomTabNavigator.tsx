@@ -5,6 +5,7 @@ import CartScreen from "./screens/CartScreen";
 import HomeScreen from "./screens/HomeScreen";
 import MyOrderScreen from "./screens/MyOrderScreen";
 import NearByScreen from "./screens/NearByScreen";
+import LoginScreen from "../accounts/Login"
 
 const BottomTab = createBottomTabNavigator();
 
@@ -61,7 +62,7 @@ const BottomTabNavigator = () => {
       />
       <BottomTab.Screen
         name="Account"
-        component={CartScreen}
+        component={LoginScreen}
         options={{
           tabBarLabel: "Account",
           tabBarActiveTintColor:"#D90504",
