@@ -24,7 +24,7 @@ const FuduOnboarding: React.FC<HomePageProps> = ({ navigation }) => {
     {
       title: (
         <Text style={styles.titleText}>
-          Find food <Text style={styles.boldText}> Restaurants Near</Text>you
+          Find food <Text style={styles.boldText}> Restaurants Near </Text>you
         </Text>
       ),
       subTitle: "Contrary to popular belief, Lorem Ipsum is not simply random text.",
@@ -63,14 +63,14 @@ const FuduOnboarding: React.FC<HomePageProps> = ({ navigation }) => {
         <View key={index} style={styles.slide}>
           <View style={styles.container}>
             <View style={styles.topImagesContainer}>
-              <ImageBackground
-                source={slide.bgImage}
-                style={styles.bgImage}
-              >
-                {slide.pinsImage && (
-                  <Image source={slide.pinsImage} style={styles.pinsImage} />
-                )}
-              </ImageBackground>
+            <ImageBackground
+              source={slide.bgImage}
+              style={index === 2 ? styles.customBgImage : styles.bgImage}
+            >
+              {slide.pinsImage && (
+                <Image source={slide.pinsImage} style={styles.pinsImage} />
+              )}
+            </ImageBackground>
             </View>
             {index !== 2 && ( // Do not render the whiteCircle for the third slide
               <View style={[styles.whiteCircle, { backgroundColor: slide.whiteCircleColor }]}>
@@ -94,8 +94,15 @@ const FuduOnboarding: React.FC<HomePageProps> = ({ navigation }) => {
             </Text>
             <DotComponent />
           </View>
-
-          <Image source={require('../../../assets/images/cake.png')} style={styles.footerImage} />
+          {index === 0 && (
+                  <Image source={require('../../../assets/images/cake.png')} style={styles.footerImage} />
+                )}
+                {index === 1 && (
+                  <Image source={require('../../../assets/images/burgerImg.png')} style={styles.footerImage} />
+                )}
+                {index === 2 && (
+                  <Image source={require('../../../assets/images/cupcake.png')} style={styles.footerImage} />
+                )}
 
           {index === slides.length - 1 && (
             <Button
@@ -146,16 +153,23 @@ const styles = StyleSheet.create({
     height: windowWidth * 0.35,
     borderRadius: windowWidth * 0.2,
     backgroundColor: '#FFFFFF',
-    marginBottom: windowHeight * 0.2,
+    marginBottom: windowHeight * 0.03,
     justifyContent: 'center',
   },
   customImage: {
-    width: windowWidth * 0.4,
-    height: windowWidth * 0.4,
+    width: windowWidth * 0.5,
+    height: windowWidth * 0.5,
     resizeMode: 'contain',
     alignSelf: 'center',
-    marginBottom: windowHeight * 0.13,
-   
+    marginBottom: windowHeight * 0.1,
+  },
+  customBgImage: {
+    width: windowWidth,
+    height: windowHeight * 0.3,
+    resizeMode: 'cover', 
+    alignSelf: 'center',
+    marginBottom: windowWidth * 0.5,
+    
   },
   imagePin: {
     width: windowWidth * 0.15,
@@ -171,16 +185,17 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   footerImage: {
-    width: windowWidth * 0.3,
-    height: windowWidth * 0.3,
+    width: windowWidth * 0.4,
+    height: windowWidth * 0.4,
     resizeMode: 'contain',
-    position: 'relative',
-    left: 120,
+    marginLeft:  windowWidth * 0.6,
+    
   },
   textContainer: {
     width: 300,
-    position: 'relative',
-    top: -90,
+    padding: 10,
+    marginBottom: 50,
+    
   },
   titleText: {
     fontSize: 26,
