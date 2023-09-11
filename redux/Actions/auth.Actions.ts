@@ -5,38 +5,37 @@ import axios from "axios";
 import instance from "../../axios/axios-instance";
 import { ISignup } from "../../core/signup";
 
-
 export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
 export const FORGOT_PASSWORD_SUCCESS = "FORGOT_PASSWORD_SUCCESS";
 export const FORGOT_PASSWORD_FAILURE = "FORGOT_PASSWORD_FAILURE";
 
-export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
-export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
-export const RESET_PASSWORD_FAILURE = 'RESET_PASSWORD_FAILURE';
+export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
+export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
+export const RESET_PASSWORD_FAILURE = "RESET_PASSWORD_FAILURE";
 
-
-export interface ResetPasswordRequestAction extends Action<typeof RESET_PASSWORD_REQUEST> {
-}
-export interface ResetPasswordSuccessAction extends Action<typeof RESET_PASSWORD_SUCCESS> {
-}
-export interface ResetPasswordFailureAction extends Action<typeof RESET_PASSWORD_FAILURE> {
+export interface ResetPasswordRequestAction
+  extends Action<typeof RESET_PASSWORD_REQUEST> {}
+export interface ResetPasswordSuccessAction
+  extends Action<typeof RESET_PASSWORD_SUCCESS> {}
+export interface ResetPasswordFailureAction
+  extends Action<typeof RESET_PASSWORD_FAILURE> {
   payload: {
     error: string; // Error message
   };
 }
 
-export interface ForgotPasswordRequestAction extends Action<typeof FORGOT_PASSWORD_REQUEST> {
-}
+export interface ForgotPasswordRequestAction
+  extends Action<typeof FORGOT_PASSWORD_REQUEST> {}
 
-export interface ForgotPasswordSuccessAction extends Action<typeof FORGOT_PASSWORD_SUCCESS> {
-}
+export interface ForgotPasswordSuccessAction
+  extends Action<typeof FORGOT_PASSWORD_SUCCESS> {}
 
-export interface ForgotPasswordFailureAction extends Action<typeof FORGOT_PASSWORD_FAILURE> {
+export interface ForgotPasswordFailureAction
+  extends Action<typeof FORGOT_PASSWORD_FAILURE> {
   payload: {
     error: string;
   };
 }
-
 
 export interface LoginRequestAction extends Action<"LOGIN_REQUEST"> {
   payload: ILogin;
@@ -84,22 +83,20 @@ export type AuthAction =
   | SignupSuccessAction
   | SignupFailureAction;
 
+export const signupRequest = (signupData: ISignup): SignupRequestAction => ({
+  type: "SIGNUP_REQUEST",
+  payload: signupData,
+});
 
-  export const signupRequest = (signupData: ISignup): SignupRequestAction => ({
-    type: "SIGNUP_REQUEST",
-    payload: signupData,
-  });
-  
-  export const signupSuccess = (user: any): SignupSuccessAction => ({
-    type: "SIGNUP_SUCCESS",
-    payload: { user },
-  });
-  
-  export const signupFailure = (error: string): SignupFailureAction => ({
-    type: "SIGNUP_FAILURE",
-    payload: { error },
-  });
-  
+export const signupSuccess = (user: any): SignupSuccessAction => ({
+  type: "SIGNUP_SUCCESS",
+  payload: { user },
+});
+
+export const signupFailure = (error: string): SignupFailureAction => ({
+  type: "SIGNUP_FAILURE",
+  payload: { error },
+});
 
 export const loginRequest = (credentials: ILogin): LoginRequestAction => ({
   type: "LOGIN_REQUEST",
@@ -124,26 +121,32 @@ export const forgotPasswordSuccess = (): ForgotPasswordSuccessAction => ({
   type: FORGOT_PASSWORD_SUCCESS,
 });
 
-export const forgotPasswordFailure = (error: string): ForgotPasswordFailureAction => ({
+export const forgotPasswordFailure = (
+  error: string
+): ForgotPasswordFailureAction => ({
   type: FORGOT_PASSWORD_FAILURE,
   payload: { error },
 });
 
 export const resetPasswordRequest = (): ResetPasswordRequestAction => ({
-  type:RESET_PASSWORD_REQUEST,
+  type: RESET_PASSWORD_REQUEST,
 });
 
-export const resetPasswordSuccess =():ResetPasswordSuccessAction=>({
-  type:RESET_PASSWORD_SUCCESS,
+export const resetPasswordSuccess = (): ResetPasswordSuccessAction => ({
+  type: RESET_PASSWORD_SUCCESS,
 });
 
-export const resetPasswordFailure =(error: string):ResetPasswordFailureAction => ({
-  type:RESET_PASSWORD_FAILURE,
-  payload: {error},
+export const resetPasswordFailure = (
+  error: string
+): ResetPasswordFailureAction => ({
+  type: RESET_PASSWORD_FAILURE,
+  payload: { error },
 });
 
 // Thunk for "forgot password" functionality
-export const forgotPassword = (email: string): ThunkAction<void, any, unknown, AuthAction> => {
+export const forgotPassword = (
+  email: string
+): ThunkAction<void, any, unknown, AuthAction> => {
   return async (dispatch) => {
     dispatch(forgotPasswordRequest());
     try {
@@ -156,31 +159,28 @@ export const forgotPassword = (email: string): ThunkAction<void, any, unknown, A
   };
 };
 
-export const resetPassword =(password: string, confirmPassword: string):ThunkAction<void, any, unknown, AuthAction> => {
+export const resetPassword = (
+  password: string,
+  confirmPassword: string
+): ThunkAction<void, any, unknown, AuthAction> => {
   return async (dispatch) => {
     dispatch(resetPasswordRequest);
 
-       if(password !== confirmPassword){
-       dispatch(resetPasswordFailure("Passwords do not match."));
-        return;
-       }
-       try {
-        // API request to reset password
-        await instance.post('/Auth/resetPassword', { password }); // Adjust the API endpoint
-  
-       dispatch(resetPasswordSuccess);
+    if (password !== confirmPassword) {
+      dispatch(resetPasswordFailure("Passwords do not match."));
+      return;
+    }
+    try {
+      // API request to reset password
+      await instance.post("/Auth/resetPassword", { password }); // Adjust the API endpoint
 
-      } catch (error: any) {
-        console.log(error.message);
-     dispatch(resetPasswordFailure(error.message));
-      }
-    };
+      dispatch(resetPasswordSuccess);
+    } catch (error: any) {
+      console.log(error.message);
+      dispatch(resetPasswordFailure(error.message));
+    }
   };
-
-
-
-
-
+};
 
 export const login = (
   credentials: ILogin
@@ -196,7 +196,7 @@ export const login = (
 
       dispatch(loginSuccess(user));
     } catch (error: any) {
-      console.log(error.message)
+      console.log(error.message);
       dispatch(loginFailure(error.message));
     }
   };
@@ -209,7 +209,7 @@ export const signin = (
     dispatch(loginRequest(credentials));
     try {
       // Make a POST request to your login API endpoint
-      const response = await instance.post('/User/login', credentials);
+      const response = await instance.post("/User/login", credentials);
 
       // Assuming the API response contains the user data
       const user: any = response.data;
@@ -219,11 +219,10 @@ export const signin = (
     } catch (error: any) {
       console.log(error.message);
       dispatch(loginFailure(error.message));
-      return loginFailure(error.message);// Resolve with the failure action
+      return loginFailure(error.message); // Resolve with the failure action
     }
   };
 };
-
 
 export const register = (
   signupData: ISignup
@@ -233,7 +232,6 @@ export const register = (
     try {
       // Make a POST request to your signup API endpoint
       const response = await instance.post("/User/register", signupData);
-      console.log(response)
 
       // Assuming the API response contains the user data
       const user: any = response.data;
@@ -241,9 +239,9 @@ export const register = (
       dispatch(signupSuccess(user));
       return signupSuccess(user);
     } catch (error: any) {
-      console.log(error);
-      dispatch(signupFailure(error.message));
-      return signupFailure(error.message);
+      console.log(JSON.parse(error.request._response));
+      dispatch(signupFailure(JSON.parse(error.request._response)));
+      return signupFailure(JSON.parse(error.request._response));
     }
   };
 };

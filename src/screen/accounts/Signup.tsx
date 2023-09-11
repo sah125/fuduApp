@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   View,
   Text,
+  Alert,
   TextInput,
   TouchableOpacity,
   Switch,
@@ -105,9 +106,21 @@ const SignupScreen: React.FC<SignupPageProps> = ({ navigation }) => {
 
     if (response.type === "SIGNUP_SUCCESS") {
       navigation.navigate("Phone-verification");
+    } else {
+      Alert.alert(
+        "Message",
+        error.response,
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ],
+        { cancelable: false }
+      );
     }
-
-    console.log("response", response);
   };
 
   return (
