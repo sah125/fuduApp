@@ -233,6 +233,7 @@ export const register = (
     try {
       // Make a POST request to your signup API endpoint
       const response = await instance.post("/User/register", signupData);
+      console.log(response)
 
       // Assuming the API response contains the user data
       const user: any = response.data;
@@ -240,7 +241,7 @@ export const register = (
       dispatch(signupSuccess(user));
       return signupSuccess(user);
     } catch (error: any) {
-      console.log(error.message);
+      console.log(error);
       dispatch(signupFailure(error.message));
       return signupFailure(error.message);
     }
