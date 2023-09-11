@@ -13,7 +13,7 @@ const TextInANest = () => {
 
     const handleLogin = () => {
         // Validation logic
-        // Perform actual login here
+        
     
         console.log("Login successful!");
     };
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     marginTop: 15,
   },
+
   boldText: {
     fontWeight: 'bold',
     fontFamily: 'Roboto',
@@ -82,6 +83,7 @@ const styles = StyleSheet.create({
     fontSize: 33,
     textAlign: 'center',
   },
+
   createAccount: {
     backgroundColor: '#03A60F',
     borderRadius: 32,
@@ -90,11 +92,13 @@ const styles = StyleSheet.create({
     color: "#2B0100",
     padding: 17,
   },
+
   createAccountText: {
     fontSize: 16,
     textAlign: "center",
     color: "#fff",
   },
+
   facebookButtonText: {
     fontSize: 16,
     textAlign: "center",
@@ -124,6 +128,7 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
   },
+  
 });
 
 export default TextInANest;
