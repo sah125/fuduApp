@@ -20,6 +20,8 @@ export interface SignupFailureAction extends Action<"SIGNUP_FAILURE"> {
   };
 }
 
+
+
 export type AuthAction =
   | SignupRequestAction
   | SignupSuccessAction
@@ -56,6 +58,30 @@ export const signup = (
     } catch (error: any) {
       console.log(error.message);
       dispatch(signupFailure(error.message));
+    }
+  };
+};
+
+
+
+export const register = (
+  signupData: ISignup
+): ThunkAction<Promise<AuthAction>, any, unknown, AuthAction> => {
+  return async (dispatch) => {
+    dispatch(signupRequest(signupData));
+    try {
+      // Make a POST request to your signup API endpoint
+      const response = await instance.post("/User/register", signupData);
+
+      // Assuming the API response contains the user data
+      const user: any = response.data;
+
+      dispatch(signupSuccess(user));
+      return signupSuccess(user);
+    } catch (error: any) {
+      console.log(error.message);
+      dispatch(signupFailure(error.message));
+      return signupFailure(error.message);
     }
   };
 };

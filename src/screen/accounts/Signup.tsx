@@ -12,17 +12,25 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { signup } from "../../../redux/Actions/registration.Actions";
 import { ISignup } from "../../../core/signup";
+import { register, signupRequest, signupSuccess } from "../../../redux/Actions/auth.Actions";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
 
+interface SignupPageProps {
+  navigation: any; 
+}
 
 const Stack = createStackNavigator();
+type AppDispatch = ThunkDispatch<any, unknown, AnyAction>;
 
-const SignupScreen = () => {
+const SignupScreen : React.FC<SignupPageProps> = ({ navigation }) => {
     //variables
-    const [username, setUsername] = useState<string>("");
+   // const [username, setUsername] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
-    const [phoneNumber, setPhoneNumber] = useState<string>("");
+    //const [phoneNumber, setPhoneNumber] = useState<string>("");
+    const [phone, setPhone] = useState<string>("");
     const [dateOfBirth, setDateOfBirth] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -38,7 +46,9 @@ const SignupScreen = () => {
     const [dateOfBirthError, setDateOfBirthError] = useState(false);
     const [phoneNumberError, setPhoneNumberError] = useState(false);
 
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
+    //const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+    const dispatch = useDispatch<AppDispatch>();
     const { isSignUp, error } = useSelector((state: any) => state?.auth);
 
     // Validation function for email
@@ -54,7 +64,7 @@ const SignupScreen = () => {
     };
       
  
-    const handleSignup = () => {
+    const handleSignup = async () =>{
 
         // Validation logic
         if (password !== confirmPassword) {
@@ -74,7 +84,7 @@ const SignupScreen = () => {
             setEmailError(false); 
         }
         
-        const model: ISignup = {
+        /*const model: ISignup = {
           username: username,
           email: email,
           phoneNumber: phoneNumber,
@@ -84,10 +94,43 @@ const SignupScreen = () => {
           termsChecked: termsChecked,
         };
     
-        signup(model);
+        signup(model);*/
+        const signupData:ISignup = {
+          userName: userName,
+          email: email,
+          password: password,
+          phone: phone,
+          dateOfBirth: dateOfBirth,
+         // confirmPassword: confirmPassword,
+         // termsChecked: false
+        };
+       // Call the registration function
+        // Dispatch the signin action and await the response
+        const response = dispatch(register(signupData));
+        
+   // dispatch(signupRequest(signupData))
+       //try {
+       
+    //const response = await dispatch(register(signupData));
+   /* if (response && response.type === "SIGNUP_SUCCESS") {
+      // Registration successful, you can navigate to the next screen or take appropriate action
+      console.log('Registration successful!');
+      // Dispatch a login success action if needed
+      dispatch(signupSuccess(response));
+      navigation.navigate("Phone-verification");
+    } else if (response && response.type ==="SIGNUP_FAILURE") {
+      // Registration failed, handle the error
+      console.error('Registration failed:', response);
+    } 
+  } catch (error) {
+    // Handle any errors that occur during the login process
+    console.error("Login failed:", error);
+  }*/
+
         // Perform actual signup here
-        console.log("Signup successful!");
+       // console.log("Signup successful!");
     };
+
 
     return (
         <View style={styles.container}>
@@ -105,9 +148,9 @@ const SignupScreen = () => {
             <TextInput
                 style={[styles.input,usernameError && styles.inputError]}
                 placeholder="Username"
-                value={username}
+                value={userName}
                 onChangeText={(text) => {
-                setUsername(text);
+                  setUserName(text);
                 setUsernameError(false);
                 }}
             />
@@ -130,9 +173,9 @@ const SignupScreen = () => {
             <TextInput
                 style={[styles.input, phoneNumberError && styles.inputError]}
                 placeholder="Phone Number"
-                value={phoneNumber}
+                value={phone}
                 onChangeText={(text) => {
-                    setPhoneNumber(text);
+                  setPhone(text);
                     setPhoneNumberError(false);
                 }}
                 keyboardType="numeric" // Only allow numeric keyboard
@@ -395,5 +438,6 @@ const styles = StyleSheet.create({
       },
     });
 
-const connector = connect(null, { signup });
-export default connector(SignupScreen);
+//const connector = connect(null, { register });
+
+export default SignupScreen;

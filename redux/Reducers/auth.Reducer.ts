@@ -10,6 +10,8 @@ interface AuthState {
   forgotPasswordError: string | null;
   resetPasswordLoading : boolean;
   resetPasswordError: string | null;
+  isSignUp: boolean;
+
   
 }
 
@@ -24,9 +26,12 @@ const initialState: AuthState = {
   forgotPasswordError: '',
   resetPasswordLoading: false,
   resetPasswordError: '',
+  isSignUp: false,
   
  
 };
+
+
 
 //type AuthActionTypes = "LOGIN_REQUEST" | "LOGIN_SUCCESS" | "LOGIN_FAILURE" | "FORGOT_PASSWORD_REQUEST" | "FORGOT_PASSWORD_SUCCESS" | "FORGOT_PASSWORD_FAILURE";
 
@@ -89,6 +94,27 @@ const authReducer: Reducer<AuthState, AuthAction> = (state = initialState, actio
             resetPasswordLoading: false,
             resetPasswordError: action.payload.error,
         };
+        case 'SIGNUP_REQUEST':
+          return {
+            ...state,
+            isSignUp: true,
+            error: null,
+          };
+          case 'SIGNUP_SUCCESS':
+            return {
+              ...state,
+              isSignUp: false,
+              isLoggedIn: true,
+              user: action.payload.user, // Assuming the user data is available in the payload.
+              error: null,
+            };
+            case 'SIGNUP_FAILURE':
+              return {
+                ...state,
+                isSignUp: false,
+                error: action.payload.error,
+              };
+
     default:
       return state;
   }

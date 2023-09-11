@@ -3,6 +3,8 @@ import { ILogin } from "../../core/login";
 import { ThunkAction } from "redux-thunk";
 import axios from "axios";
 import instance from "../../axios/axios-instance";
+import { ISignup } from "../../core/signup";
+
 
 export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
 export const FORGOT_PASSWORD_SUCCESS = "FORGOT_PASSWORD_SUCCESS";
@@ -52,6 +54,22 @@ export interface LoginFailureAction extends Action<"LOGIN_FAILURE"> {
   };
 }
 
+export interface SignupRequestAction extends Action<"SIGNUP_REQUEST"> {
+  payload: ISignup;
+}
+
+export interface SignupSuccessAction extends Action<"SIGNUP_SUCCESS"> {
+  payload: {
+    user: any;
+  };
+}
+
+export interface SignupFailureAction extends Action<"SIGNUP_FAILURE"> {
+  payload: {
+    error: string;
+  };
+}
+
 export type AuthAction =
   | LoginRequestAction
   | LoginSuccessAction
@@ -61,10 +79,26 @@ export type AuthAction =
   | ForgotPasswordFailureAction
   | ResetPasswordFailureAction
   | ResetPasswordRequestAction
-  | ResetPasswordSuccessAction;
+  | ResetPasswordSuccessAction
+  | SignupRequestAction
+  | SignupSuccessAction
+  | SignupFailureAction;
 
 
- 
+  export const signupRequest = (signupData: ISignup): SignupRequestAction => ({
+    type: "SIGNUP_REQUEST",
+    payload: signupData,
+  });
+  
+  export const signupSuccess = (user: any): SignupSuccessAction => ({
+    type: "SIGNUP_SUCCESS",
+    payload: { user },
+  });
+  
+  export const signupFailure = (error: string): SignupFailureAction => ({
+    type: "SIGNUP_FAILURE",
+    payload: { error },
+  });
   
 
 export const loginRequest = (credentials: ILogin): LoginRequestAction => ({
@@ -164,6 +198,51 @@ export const login = (
     } catch (error: any) {
       console.log(error.message)
       dispatch(loginFailure(error.message));
+    }
+  };
+};
+
+export const signin = (
+  credentials: ILogin
+): ThunkAction<Promise<AuthAction>, any, unknown, AuthAction> => {
+  return async (dispatch) => {
+    dispatch(loginRequest(credentials));
+    try {
+      // Make a POST request to your login API endpoint
+      const response = await instance.post('/User/login', credentials);
+
+      // Assuming the API response contains the user data
+      const user: any = response.data;
+
+      dispatch(loginSuccess(user));
+      return loginSuccess(user); // Resolve with the success action
+    } catch (error: any) {
+      console.log(error.message);
+      dispatch(loginFailure(error.message));
+      return loginFailure(error.message);// Resolve with the failure action
+    }
+  };
+};
+
+
+export const register = (
+  signupData: ISignup
+): ThunkAction<Promise<AuthAction>, any, unknown, AuthAction> => {
+  return async (dispatch) => {
+    dispatch(signupRequest(signupData));
+    try {
+      // Make a POST request to your signup API endpoint
+      const response = await instance.post("/User/register", signupData);
+
+      // Assuming the API response contains the user data
+      const user: any = response.data;
+
+      dispatch(signupSuccess(user));
+      return signupSuccess(user);
+    } catch (error: any) {
+      console.log(error.message);
+      dispatch(signupFailure(error.message));
+      return signupFailure(error.message);
     }
   };
 };

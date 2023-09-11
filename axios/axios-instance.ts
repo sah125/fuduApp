@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let ongoingRequests = 0;
 
@@ -7,7 +8,7 @@ const instance: AxiosInstance = axios.create({
 });
 
 const getToken = () => {
-  return localStorage.getItem("accessToken");
+  return AsyncStorage.getItem("accessToken");
 };
 
 const displayGlobalError = (messageText: string) => {};

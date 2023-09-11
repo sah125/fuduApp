@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   View,
   Text,
@@ -8,12 +9,15 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createStackNavigator } from "@react-navigation/stack";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { login } from "../../../redux/Actions/auth.Actions";
+import { signin, loginSuccess, loginFailure} from "../../../redux/Actions/auth.Actions";
 import { ILogin } from "../../../core/login";
 import { useNavigation } from '@react-navigation/native';
+import { ThunkDispatch } from "redux-thunk";
+import { loginRequest } from "../../../redux/Actions/login.Actions";
 
 interface LoginPageProps {
   navigation: any; 
@@ -26,39 +30,60 @@ const Stack = createStackNavigator();
 const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [usernameError, setUsernameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const dispatch = useDispatch();
+ // const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const { isLoggedIn, error } = useSelector((state: any) => state?.auth);
 
  
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // Validation logic
-    if (username === "") {
-      setUsernameError(true);
+    if (email === "") {
+      setEmailError(true);
       return;
     }
     if (password === "") {
       setPasswordError(true);
       return;
     }
-    if (!isValidEmail(username)) {
-      setUsernameError(true);
+    if (!isValidEmail(email)) {
+      setEmailError(true);
       return;
     }
 
     const model: ILogin = {
-      username: username,
+      email: email,
       password: password,
     };
 
-    login(model);
-    // Perform actual login here
-    console.log("Login successful!");
+    // Dispatch the signin action and await the response
+    dispatch(loginRequest());
+
+    try {
+      const response = await dispatch(signin(model));
+
+      if (response && response.type === "LOGIN_SUCCESS") {
+        // If the login was successful, store the token in AsyncStorage
+        await AsyncStorage.setItem("accessToken", "");
+        navigation.navigate("Tabs"); // Assuming this is your next screen
+        console.log("Successfully Login and navigated to Tabs");
+      } else if (response && response.type === "LOGIN_FAILURE") {
+        // If the login failed, show an error message or navigate to the forgotten password screen
+        navigation.navigate("ForgottenPassword");
+        console.error("Login failure:", response.payload.error);
+      }
+    } catch (error) {
+      // Handle other errors, e.g., validation errors
+      console.error("Validation error:", error);
+    }
   };
+    
+    
+    
 
   const isValidEmail = (email: string) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -88,18 +113,18 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
       <TextInput
         style={[
           styles.input,
-          (usernameError || passwordError) && styles.inputError,
+          (emailError || passwordError) && styles.inputError,
         ]}
         placeholder="Username or Email" // Placeholder for username or email
-        value={username}
+        value={email}
         onChangeText={(text) => {
-          setUsername(text);
-          setUsernameError(false);
+          setEmail(text);
+          setEmailError(false);
           setPasswordError(false);
         }}
       />
       <TouchableOpacity>
-        {usernameError && (
+        {emailError && (
           <Text style={styles.errorLabel}>
             Please enter a valid username or email
           </Text>
@@ -139,7 +164,7 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
           value={rememberMe}
           onValueChange={(newValue) => setRememberMe(newValue)}
         />
-        <TouchableOpacity style={styles.forgotPassword} onPress={() => navigation.navigate('ForgottenPassword')}>
+        <TouchableOpacity style={styles.forgotPassword} onPress={() => navigation.navigate('Signup')}>
           <Text style={styles.forgotText}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
@@ -270,6 +295,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const connector = connect(null, { login });
+const connector = connect(null, { signin });
 
 export default connector(LoginScreen);

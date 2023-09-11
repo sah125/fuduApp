@@ -1,9 +1,9 @@
 export interface ISignup {
-    username: string;
+    userName: string;
     email: string;
-    phoneNumber: string;
+    phone: string;
     dateOfBirth: string;
     password: string;
-    confirmPassword: string;
-    termsChecked: boolean;
+    //confirmPassword: string;
+   // termsChecked: boolean;
   }
