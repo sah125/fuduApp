@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
 import CartScreen from "./screens/CartScreen";
 import HomeScreen from "./screens/HomeScreen";
-import MyOrderScreen from "./screens/MyOrderScreen";
+import FoodOrderScreen from "./screens/FoodOrderScreen";
 import NearByScreen from "./screens/NearByScreen";
 import LoginScreen from "../accounts/Login"
 
@@ -29,7 +29,7 @@ const BottomTabNavigator = () => {
       />
       <BottomTab.Screen
         name="MyOrder"
-        component={MyOrderScreen}
+        component={FoodOrderScreen}
         options={{
           tabBarLabel: "My Order",
           tabBarActiveTintColor:"#D90504",
