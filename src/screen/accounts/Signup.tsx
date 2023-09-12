@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
       termsText: {
         fontSize: 14,
         color: "#848282",
-        fontFamily: "Roboto",
+        
         fontWeight: "400", 
       },
       condition: {
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
       conditionText: {
         color: "#848282", 
         opacity: 1, 
-        fontFamily: "Roboto", 
+         
         fontWeight: "400", 
         fontSize: 12, 
         textAlign: "center",
@@ -387,7 +387,7 @@ const styles = StyleSheet.create({
       },
       dateFormatText: {
         color: "#848282",
-        fontFamily: "Roboto",
+        
         fontWeight: "400",
         fontSize: 8,
         textAlign: "left",
