@@ -16,14 +16,14 @@ const Stack = createStackNavigator();
 const AppNavigator: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Onboarding" component={FuduOnboarding} />
+      <Stack.Screen name="LandingPage" component={LandingPage} />
+      <Stack.Screen name="Home" component={HomePage} />
 
-<<<<<<< HEAD
       <Stack.Screen name="Signup" component={SignupScreen} />
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
       <Stack.Screen name="Login" component={LoginScreen} />
 
-=======
->>>>>>> b23bcbeafaa99758e32105c213d193bb59906408
       <Stack.Screen name="Tabs" component={BottomTabNavigator} />
 
       <Stack.Screen
