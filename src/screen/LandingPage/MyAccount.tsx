@@ -5,7 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
 
-const TextInANest = () => {
+const AccountPage = () => {
   const [titleText, setTitleText] = useState("Delivered Fast at your Door");
   const bodyText = 'Contrary to popular belief borem text.';
   const { isLoggedIn, error } = useSelector((state: any) => state?.auth);
@@ -36,7 +36,7 @@ const TextInANest = () => {
 
       <TouchableOpacity style={styles.createAccount} onPress={handleLogin}>
         {isLoggedIn ? (
-          <ActivityIndicator color="white" size="small" />
+          <ActivityIndicator color="#fff" size="small" />
         ) : (
           <Text style={styles.createAccountText}>Create an account</Text>
         )}
@@ -45,7 +45,7 @@ const TextInANest = () => {
 
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         {isLoggedIn ? (
-          <ActivityIndicator color="white" size="small" />
+          <ActivityIndicator color="#fff" size="small" />
         ) : (
           <Text style={styles.loginButtonText}>Sign In</Text>
         )}
@@ -131,5 +131,6 @@ const styles = StyleSheet.create({
   
 });
 
-export default TextInANest;
+
+export default AccountPage;
 

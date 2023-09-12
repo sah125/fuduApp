@@ -7,7 +7,7 @@ import HomePage from "./HomePage";
 //import LoginScreen from "./accounts/Login";
 import SignupScreen from "./accounts/Signup";
 import PhoneVerificationScreen from "./accounts/PhoneVerication";
-import TextInANest from "./LandingPage/MyAccount";
+import AccountPage from "./LandingPage/MyAccount";
 
 const Stack = createStackNavigator();
 
@@ -16,7 +16,7 @@ const AppNavigator: React.FC = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
     
       <Stack.Screen name="Signup" component={SignupScreen} />
-      <Stack.Screen name="Myaccount" component={TextInANest} />
+      <Stack.Screen name="Myaccount" component={AccountPage} />
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
       <Stack.Screen
         name="Phone-verification"
