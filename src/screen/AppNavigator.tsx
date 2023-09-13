@@ -4,12 +4,15 @@ import { createStackNavigator } from "@react-navigation/stack";
 import FuduOnboarding from "./LandingPage/FuduOnboarding";
 import LandingPage from "../screen/LandingPage/LandingPage";
 import HomePage from "./HomePage";
+//import LoginScreen from "./accounts/Login"
 import LoginScreen from "./accounts/Login";
 import SignupScreen from "./accounts/Signup";
 import PhoneVerificationScreen from "./accounts/PhoneVerication";
+import AccountPage from "./LandingPage/MyAccount";
 import ForgottenPasswordScreen from "./accounts/ForgottenPassword";
 import ResetPasswordScreen from "./accounts/ResetPassword";
 import BottomTabNavigator from "./tabs/BottomTabNavigator";
+
 
 const Stack = createStackNavigator();
 
@@ -21,6 +24,8 @@ const AppNavigator: React.FC = () => {
       <Stack.Screen name="Home" component={HomePage} />
 
       <Stack.Screen name="Signup" component={SignupScreen} />
+      <Stack.Screen name="Myaccount" component={AccountPage} />
+      {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
       <Stack.Screen name="Login" component={LoginScreen} />
 
