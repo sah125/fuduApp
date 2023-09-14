@@ -13,17 +13,15 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { login } from "../../../redux/Actions/auth.Actions";
 import { ILogin } from "../../../core/login";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 interface LoginPageProps {
-  navigation: any; 
+  navigation: any;
 }
-
-
 
 const Stack = createStackNavigator();
 
-const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
+const LoginScreen: React.FC<LoginPageProps> = ({ navigation }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
@@ -32,8 +30,6 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState(false);
   const dispatch = useDispatch();
   const { isLoggedIn, error } = useSelector((state: any) => state?.auth);
-
- 
 
   const handleLogin = () => {
     // Validation logic
@@ -57,7 +53,6 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
 
     navigation.navigate("Tabs");
 
-
     // login(model);
     // Perform actual login here
     console.log("Login successful!");
@@ -71,15 +66,19 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
   //const navigation = useNavigation();
 
   const handleForgotPassword = () => {
-   // navigation.navigate('ForgottenPassword','');
-
+    // navigation.navigate('ForgottenPassword','');
   };
-  
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backIcon}>
-        <View style={styles.backIconContainer} >
-          <Icon onPress={() => navigation.navigate('Onboarding')} name="arrow-back" size={24} color="#2B0100" />
+        <View style={styles.backIconContainer}>
+          <Icon
+            onPress={() => navigation.navigate("Onboarding")}
+            name="arrow-back"
+            size={24}
+            color="#2B0100"
+          />
           <Text style={styles.backText}>Back</Text>
         </View>
       </TouchableOpacity>
@@ -142,7 +141,10 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
           value={rememberMe}
           onValueChange={(newValue) => setRememberMe(newValue)}
         />
-        <TouchableOpacity style={styles.forgotPassword} onPress={() => navigation.navigate('ForgottenPassword')}>
+        <TouchableOpacity
+          style={styles.forgotPassword}
+          onPress={() => navigation.navigate("ForgottenPassword")}
+        >
           <Text style={styles.forgotText}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>

@@ -10,8 +10,7 @@ import {
 } from "react-native";
 import Swiper from "react-native-swiper-flatlist";
 import { useNavigation } from "@react-navigation/native";
-import Icon from 'react-native-vector-icons/FontAwesome'; 
-
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -29,15 +28,18 @@ interface Slide {
   customImage?: any;
 }
 
-const DotComponent = ({ activeIndex, slides }: { activeIndex: number; slides: Slide[] }) => (
+const DotComponent = ({
+  activeIndex,
+  slides,
+}: {
+  activeIndex: number;
+  slides: Slide[];
+}) => (
   <View style={styles.dotContainer}>
     {slides.map((_, index) => (
       <View
         key={index}
-        style={[
-          styles.dot,
-          index === activeIndex ? styles.activeDot : null,
-        ]}
+        style={[styles.dot, index === activeIndex ? styles.activeDot : null]}
       />
     ))}
   </View>
@@ -52,7 +54,8 @@ const FuduOnboarding: React.FC<HomePageProps> = ({ navigation }) => {
           Find food <Text style={styles.boldText}> Restaurants Near </Text>you
         </Text>
       ),
-      subTitle: "Contrary to popular belief, Lorem Ipsum is not simply random text.",
+      subTitle:
+        "Contrary to popular belief, Lorem Ipsum is not simply random text.",
       bgImage: require("../../../assets/images/bgImage.png"),
       pinsImage: require("../../../assets/images/pins.png"),
       whiteCircleColor: "#FFFFFF",
@@ -60,7 +63,8 @@ const FuduOnboarding: React.FC<HomePageProps> = ({ navigation }) => {
     {
       title: (
         <Text style={styles.titleText}>
-          <Text style={styles.boldText}>Food </Text> you love delivered <Text style={styles.boldText}>24hr to you </Text>
+          <Text style={styles.boldText}>Food </Text> you love delivered{" "}
+          <Text style={styles.boldText}>24hr to you </Text>
         </Text>
       ),
       subTitle: "Explore a variety of dishes from different cuisines.",
@@ -71,7 +75,8 @@ const FuduOnboarding: React.FC<HomePageProps> = ({ navigation }) => {
     {
       title: (
         <Text style={styles.titleText}>
-          <Text style={styles.boldText}>Delivered quickly</Text> at your <Text style={styles.boldText}>place</Text>
+          <Text style={styles.boldText}>Delivered quickly</Text> at your{" "}
+          <Text style={styles.boldText}>place</Text>
         </Text>
       ),
       subTitle: "Place orders easily and have your favorite meals delivered.",
@@ -82,7 +87,12 @@ const FuduOnboarding: React.FC<HomePageProps> = ({ navigation }) => {
     },
   ];
 
-  const handleSlideChange = ({ index }: { index: number; prevIndex: number }) => {
+  const handleSlideChange = ({
+    index,
+  }: {
+    index: number;
+    prevIndex: number;
+  }) => {
     setActiveSlide(index);
   };
   const handleDone = () => {
@@ -96,7 +106,7 @@ const FuduOnboarding: React.FC<HomePageProps> = ({ navigation }) => {
 
   return (
     <Swiper style={styles.wrapper} onChangeIndex={handleSlideChange}>
-          {slides.map((slide, index) => (
+      {slides.map((slide, index) => (
         <View key={index} style={styles.slide}>
           <View style={styles.container}>
             <View style={styles.topImagesContainer}>
@@ -110,15 +120,26 @@ const FuduOnboarding: React.FC<HomePageProps> = ({ navigation }) => {
               </ImageBackground>
             </View>
             {index !== 2 && (
-               // Do not render the whiteCircle for the third slide
-              <View style={[styles.whiteCircle, { backgroundColor: slide.whiteCircleColor || '#D97803' }]}>
+              // Do not render the whiteCircle for the third slide
+              <View
+                style={[
+                  styles.whiteCircle,
+                  { backgroundColor: slide.whiteCircleColor || "#D97803" },
+                ]}
+              >
                 {index !== 1 && (
-                  <Image source={require('../../../assets/images/pin.png')} style={styles.imagePin} />
+                  <Image
+                    source={require("../../../assets/images/pin.png")}
+                    style={styles.imagePin}
+                  />
                 )}
-                <Image source={require('../../../assets/images/burger.png')} style={styles.centerImage} />
+                <Image
+                  source={require("../../../assets/images/burger.png")}
+                  style={styles.centerImage}
+                />
               </View>
             )}
-            {index === 2 && slide.customImage && ( 
+            {index === 2 && slide.customImage && (
               // Render the customImage for the third slide if it exists
               <Image source={slide.customImage} style={styles.customImage} />
             )}
@@ -130,25 +151,27 @@ const FuduOnboarding: React.FC<HomePageProps> = ({ navigation }) => {
           </View>
 
           <View style={styles.footerContainer}>
-
-          <DotComponent activeIndex={activeSlide} slides={slides} />
-             {index === slides.length - 1 && (
-
-              <DoneButton />
-            
-              )}
+            <DotComponent activeIndex={activeSlide} slides={slides} />
+            {index === slides.length - 1 && <DoneButton />}
             {index === 0 && (
-              <Image source={require('../../../assets/images/cake.png')} style={styles.footerImage} />
+              <Image
+                source={require("../../../assets/images/cake.png")}
+                style={styles.footerImage}
+              />
             )}
             {index === 1 && (
-              <Image source={require('../../../assets/images/burgerImg.png')} style={styles.footerImage} />
+              <Image
+                source={require("../../../assets/images/burgerImg.png")}
+                style={styles.footerImage}
+              />
             )}
             {index === 2 && (
-              <Image source={require('../../../assets/images/cupcake.png')} style={styles.footerImage} />
+              <Image
+                source={require("../../../assets/images/cupcake.png")}
+                style={styles.footerImage}
+              />
             )}
           </View>
-
-         
         </View>
       ))}
     </Swiper>
@@ -172,7 +195,7 @@ const styles = StyleSheet.create({
   },
   topImagesContainer: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
   bgImage: {
     width: windowWidth,
@@ -182,8 +205,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: windowWidth * 0.3,
     height: windowWidth * 0.3,
-    alignSelf: 'flex-end',
-    resizeMode: 'contain',
+    alignSelf: "flex-end",
+    resizeMode: "contain",
     marginTop: -windowHeight * 0.1,
     marginRight: windowWidth * 0.1,
   },
@@ -191,36 +214,36 @@ const styles = StyleSheet.create({
     width: windowWidth * 0.35,
     height: windowWidth * 0.35,
     borderRadius: windowWidth * 0.2,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     marginBottom: windowHeight * 0.05,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   customBgImage: {
     width: windowWidth,
     height: windowHeight * 0.3,
-    resizeMode: 'cover', 
-    position: 'relative',
+    resizeMode: "cover",
+    position: "relative",
     top: windowHeight * 0.1,
   },
   customImage: {
     width: windowWidth * 0.5,
     height: windowWidth * 0.5,
-    resizeMode: 'contain',
-    alignSelf: 'center',
+    resizeMode: "contain",
+    alignSelf: "center",
     top: -windowHeight * 0.05,
   },
   imagePin: {
     width: windowWidth * 0.15,
     height: windowWidth * 0.15,
-    resizeMode: 'contain',
-    alignSelf: 'flex-end',
+    resizeMode: "contain",
+    alignSelf: "flex-end",
     marginBottom: -30,
   },
   centerImage: {
     width: windowWidth * 0.15,
     height: windowWidth * 0.15,
-    resizeMode: 'contain',
-    alignSelf: 'center',
+    resizeMode: "contain",
+    alignSelf: "center",
   },
   textContainer: {
     width: 300,
@@ -229,53 +252,51 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 26,
-    color: '#FFFFFF',
+    color: "#FFFFFF",
   },
   boldText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   subTitleText: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     paddingTop: 10,
   },
   footerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     width: windowWidth,
     height: windowHeight * 0.2,
   },
   footerImage: {
     width: windowWidth * 0.4,
     height: windowHeight * 0.2,
-    resizeMode: 'contain',  
-    position: 'relative',
+    resizeMode: "contain",
+    position: "relative",
     top: windowHeight * 0.03,
   },
   dotContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    flexDirection: "row",
+    justifyContent: "flex-start",
     padding: 20,
   },
   dot: {
     width: 15,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     marginHorizontal: 5,
   },
   activeDot: {
-    backgroundColor: '#F29F05', 
+    backgroundColor: "#F29F05",
     width: 20,
     height: 15,
     borderRadius: 10,
-    
   },
   doneButton: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     borderRadius: 5,
   },
- 
 });
 
 export default FuduOnboarding;
