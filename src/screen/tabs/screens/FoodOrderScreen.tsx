@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import NotificationIcon from '../../../../components/NotificationIcon';
+import NotificationsIcon from '../../../../components/BellIcon';
 import PopularWithYourOrder from '../../../../components/PopularWithYourOrder';
 import YourOrders from '../../../../components/YourOrders';
 
@@ -15,8 +15,9 @@ const FoodOrderScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.notification}>
-          <NotificationIcon />
+          <NotificationsIcon badgeCount={5} />
         </TouchableOpacity>
+
       </View>
 
       <View style={styles.centerContainer}>
@@ -48,7 +49,6 @@ const FoodOrderScreen = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1,
     backgroundColor: '#848282',
     resizeMode: 'contain', 
   },
@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: 15,
     paddingBottom: 25,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
+    height: 100,
   },
   backButton: {
     flexDirection: 'row',
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   centerContainer: {
-    flex: 6,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     backgroundColor: '#FFFFFF',

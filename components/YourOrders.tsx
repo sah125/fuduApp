@@ -56,12 +56,14 @@ const YourOrders = () => {
   };
 
   const getSubtotal = () => {
-    return items.reduce((subtotal, item) => (subtotal + item.price * item.quantity), 0);
+    return items.reduce((subtotal, item) => (
+      subtotal + item.price * item.quantity
+      ), 0);
   };
 
   const getDiscount = () => {
-    // Calculate your discount logic here
-    return 30; // Replace with the actual discount calculation
+    //discount logic here
+    return 30; // the actual discount calculation
   };
 
   const getTotalWithVAT = () => {
@@ -87,26 +89,27 @@ const YourOrders = () => {
         ))}
       </View>
       <View style={styles.checkoutContainer}>
-        <View style={styles.checkoutItem}>
-          <Text style={styles.textSubtotal}>Subtotal</Text>
-          <Text style={styles.subtotal}>${getSubtotal()}</Text>
+        <View style={styles.cardContent}>
+          <View style={styles.checkoutItem}>
+            <Text style={styles.textSubtotal}>Subtotal</Text>
+            <Text style={styles.subtotal}>${getSubtotal()}</Text>
+          </View>
+          <View style={styles.checkoutItem}>
+            <Text style={styles.smallItem}>Discount</Text>
+            <Text style={styles.discount}>${getDiscount()}</Text>
+          </View>
+          <View style={styles.checkoutItem}>
+            <Text style={styles.smallItem}>Delivery Fee</Text>
+            <Text style={styles.smallItem}>Free</Text>
+          </View>
+          <View style={styles.checkoutItem}>
+            <Text>Total<Text style={styles.smallItem}> (incl. VAT) </Text></Text>
+            <Text style={styles.total}>${getTotalWithVAT()}</Text>
+          </View>
+          <TouchableOpacity style={styles.checkoutButton}>
+            <Text style={styles.checkoutText}>Go To Checkout</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.checkoutItem}>
-          <Text style={styles.smallItem}>Discount</Text>
-          <Text style={styles.discount}>${getDiscount()}</Text>
-        </View>
-        <View style={styles.checkoutItem}>
-          <Text style={styles.smallItem}>Delivery Fee</Text>
-          <Text style={styles.smallItem}>Free</Text>
-        </View>
-        <View style={styles.checkoutItem}>
-          <Text>Total<Text style={styles.smallItem}> (incl. VAT) </Text>
-          </Text>
-          <Text style={styles.total}>${getTotalWithVAT()}</Text>
-        </View>
-        <TouchableOpacity style={styles.checkoutButton}>
-          <Text style={styles.checkoutText}>Go To Checkout</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -174,9 +177,19 @@ const styles = StyleSheet.create({
     fontSize: 8,
   },
   checkoutContainer: {
-    flexDirection: 'column',
-    fontSize: 8,
     
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    elevation: 5, 
+    shadowColor: '#000', 
+    shadowOffset: { width: 0, height: 2 }, 
+    shadowOpacity: 0.2, 
+    shadowRadius: 4,
+    position: 'relative',
+    
+  },
+  cardContent: {
+    padding: 10,
   },
   checkoutItem: {
     flexDirection: 'row',
@@ -202,15 +215,15 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: '#848282',
   },
-  total: {
-    //styles here
-
-  },
+  total: {},
+  
   checkoutButton: {
     backgroundColor: '#E03636',
     borderRadius: 5,
     padding: 10,
     marginTop: 10,
+    width: '70%',
+    alignSelf: 'center',
   },
   checkoutText: {
     fontSize: 12,

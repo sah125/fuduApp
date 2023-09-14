@@ -124,11 +124,11 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     flexDirection: "row",
-    alignItems: "center",
+    paddingTop: 2,
   },
   categoryImage: {
-    height: 60,
-    width: 100,
+    height: 75,
+    width: 150,
     borderRadius: 5,
   },
   cardPopular: {
@@ -138,11 +138,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#2B0100",
     fontWeight: "700",
+    paddingLeft: 10
   },
   categoryName: {
     fontSize: 8,
     color: "#2B0100",
     textAlign: 'left',
+    fontWeight: '700',
+    paddingTop: 2,
   },
   categoryRating: {
     fontSize: 6,
@@ -150,6 +153,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F29F05",
     borderRadius: 5,
     padding: 2,
+    
   },
   categoryPrice: {
     fontSize: 8,
