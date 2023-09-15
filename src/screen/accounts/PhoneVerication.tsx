@@ -50,10 +50,6 @@ const PhoneVerificationScreen: React.FC<phoneVerificationProps> = ({
     }
   }, [timer, redirected]);
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   const handleInput = async (index: number, value: string) => {
     setVerificationCode((prevCode) => {
       const newCode = [...prevCode];
@@ -76,7 +72,7 @@ const PhoneVerificationScreen: React.FC<phoneVerificationProps> = ({
   const phoneVerificationNumber = async (enteredCode: string) => {
     try {
       const response = await dispatch(phoneVerification(enteredCode));
-      debugger
+
       if (response.type === "SIGNUP_SUCCESS") {
         const model: ILogin = {
           email: user.email,
