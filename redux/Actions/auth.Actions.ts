@@ -270,43 +270,14 @@ export const register = (
       const response = await instance.post("/User/register", signupData);
 
       // Assuming the API response contains the user data
-      const user: any = response.data;
+      const user: any = response.data?.tempUserData;
 
       dispatch(signupSuccess(user));
       return signupSuccess(user);
     } catch (error: any) {
-      console.log(JSON.parse(error.request._response));
+      debugger;
       dispatch(signupFailure(JSON.parse(error.request._response)));
       return signupFailure(JSON.parse(error.request._response));
     }
   };
 };
-
-
-// Thunk for OTP verification
-export const verifyOtp = (
-  //otp: IVerify
-  otp: string
-): ThunkAction<Promise<AuthAction>, any, unknown, AuthAction> => {
-  return async (dispatch) => {
-    dispatch(verifyOtpRequest(otp));
-    try {
-      // Make a POST request to your OTP verification API endpoint
-      const response = await instance.post("/User/verify-otp", { otp: otp });
-
-      // Assuming the API response contains a success message
-      const message: string = response.data.message;
-
-      dispatch(verifyOtpSuccess(message));
-      return verifyOtpSuccess(message);
-    } catch (error: any) {
-      console.log(error.message);
-      dispatch(verifyOtpFailure(error.message));
-      return verifyOtpFailure(JSON.parse(error.request._response));
-    }
-  };
-};
-
-
-
-

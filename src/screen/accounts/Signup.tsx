@@ -70,6 +70,18 @@ const SignupScreen: React.FC<SignupPageProps> = ({ navigation }) => {
     return dateFormatRegex.test(dateOfBirth);
   };
 
+  // Add a function to format the phone number
+  const formatPhoneNumber = (input: string) => {
+    const phoneNumber = input.trim();
+    if (phoneNumber.startsWith("+27")) {
+      // Phone number already contains "+27"
+      return phoneNumber;
+    } else {
+      // Phone number does not contain "+27", add it
+      return "+27" + phoneNumber;
+    }
+  };
+
   const handleSignup = async () => {
     // Validation logic
     if (password !== confirmPassword) {
@@ -94,11 +106,14 @@ const SignupScreen: React.FC<SignupPageProps> = ({ navigation }) => {
       setEmailError(false);
     }
 
+    // Format the phone number before sending it
+    const formattedPhone = formatPhoneNumber(phone);
+
     const signupData: ISignup = {
       userName: userName,
       email: email,
       password: password,
-      phone: phone,
+      phone: formattedPhone, // Use the formatted phone number
       dateOfBirth: dateOfBirth,
     };
 
@@ -162,7 +177,7 @@ const SignupScreen: React.FC<SignupPageProps> = ({ navigation }) => {
       {emailError && !isValidEmail(email) && (
         <View style={styles.row}>
           <Text style={styles.dateFormatText}>
-            Does not march your password
+            Does not match your password
           </Text>
         </View>
       )}
@@ -304,7 +319,7 @@ const SignupScreen: React.FC<SignupPageProps> = ({ navigation }) => {
       <TouchableOpacity style={styles.condition}>
         <Text style={styles.conditionText}>
           By clicking sign up you agree to the following{" "}
-          <Text style={styles.accountText}>Terms and Conditions</Text> with out
+          <Text style={styles.accountText}>Terms and Conditions</Text> without
           reservation
         </Text>
       </TouchableOpacity>
@@ -450,7 +465,5 @@ const styles = StyleSheet.create({
     lineHeight: 10,
   },
 });
-
-//const connector = connect(null, { register });
 
 export default SignupScreen;

@@ -23,8 +23,6 @@ interface LoginPageProps {
   navigation: any; 
 }
 
-
-
 const Stack = createStackNavigator();
 
 const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
