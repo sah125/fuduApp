@@ -11,6 +11,9 @@ interface AuthState {
   resetPasswordLoading : boolean;
   resetPasswordError: string | null;
   isSignUp: boolean;
+  verifyOtpLoading: boolean;
+  isOtpVerified: boolean;
+  verifyOtpError: string | null;
 
   
 }
@@ -27,6 +30,9 @@ const initialState: AuthState = {
   resetPasswordLoading: false,
   resetPasswordError: '',
   isSignUp: false,
+  verifyOtpLoading: false,
+  verifyOtpError: '',
+  isOtpVerified: false,
   
  
 };
@@ -114,6 +120,26 @@ const authReducer: Reducer<AuthState, AuthAction> = (state = initialState, actio
                 isSignUp: false,
                 error: action.payload.error,
               };
+            case 'VERIFY_OTP_REQUEST':
+              return {
+                ...state,
+                verifyOtpLoading: true,
+                verifyOtpError: "",
+              };
+           case 'VERIFY_OTP_SUCCESS':
+             return {
+              ...state,
+              verifyOtpLoading: false,
+              isOtpVerified: true,
+        // You can handle success message if needed
+            };
+            case 'VERIFY_OTP_FAILURE':
+              return {
+                ...state,
+                verifyOtpLoading: false,
+                verifyOtpError: action.payload.error,
+              };
+
 
     default:
       return state;
