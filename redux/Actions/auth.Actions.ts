@@ -234,14 +234,37 @@ export const register = (
       const response = await instance.post("/User/register", signupData);
 
       // Assuming the API response contains the user data
-      const user: any = response.data;
+      const user: any = response.data?.tempUserData;
 
       dispatch(signupSuccess(user));
       return signupSuccess(user);
     } catch (error: any) {
-      console.log(JSON.parse(error.request._response));
+      debugger;
       dispatch(signupFailure(JSON.parse(error.request._response)));
       return signupFailure(JSON.parse(error.request._response));
+    }
+  };
+};
+
+export const phoneVerification = (
+  otpnumber: any
+): ThunkAction<Promise<AuthAction>, any, unknown, AuthAction> => {
+  return async (dispatch) => {
+    dispatch(signupRequest(otpnumber));
+    try {
+      const model = {
+        otp: otpnumber,
+      };
+
+      const response = await instance.post("/User/verify-otp", model);
+      
+      const otp: any = response;
+
+      dispatch(signupSuccess(otp));
+      return signupSuccess(otp);
+    } catch (error: any) {
+      dispatch(signupFailure(error.response.data.message));
+      return signupFailure(error.response.data.message);
     }
   };
 };
