@@ -1,30 +1,114 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet,Image } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import React, { useState, useRef, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Alert,
+} from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import { useDispatch, useSelector } from "react-redux";
+import { AnyAction } from "redux";
+import { ThunkDispatch } from "redux-thunk";
+import { phoneVerification, signin } from "../../../redux/Actions/auth.Actions";
+import { ILogin } from "../../../core/login";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const PhoneVerificationScreen = () => {
-  const [verificationCode, setVerificationCode] = useState(['', '', '', '', '', '']);
+interface phoneVerificationProps {
+  navigation: any;
+}
+
+type AppDispatch = ThunkDispatch<any, unknown, AnyAction>;
+const PhoneVerificationScreen: React.FC<phoneVerificationProps> = ({
+  navigation,
+}) => {
+  const [verificationCode, setVerificationCode] = useState([
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
   const codeInputs = Array.from({ length: 6 }, () => useRef(null));
+  const [timer, setTimer] = useState(60); // Initial timer value in seconds
+  const [redirected, setRedirected] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const { user, error } = useSelector((state: any) => state?.auth);
 
-  const handleInput = (index: number, value: string) => {
+  useEffect(() => {
+    if (timer > 0 && !redirected) {
+      const countdown = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+
+      return () => clearInterval(countdown);
+    } else if (timer === 0 && !redirected) {
+      setRedirected(true);
+    }
+  }, [timer, redirected]);
+
+  const handleInput = async (index: number, value: string) => {
     setVerificationCode((prevCode) => {
       const newCode = [...prevCode];
       newCode[index] = value;
 
-      if (index < 5 && value !== '') {
+      if (index < 5 && value !== "") {
         const nextInput = codeInputs[index + 1].current;
         if (nextInput) {
-          // nextInput.focus();
+          (nextInput as any).focus();
         }
+      } else if (index === 5 && value !== "") {
+        const enteredCode = newCode.join("");
+        phoneVerificationNumber(enteredCode);
       }
-  
+
       return newCode;
     });
   };
 
+  const phoneVerificationNumber = async (enteredCode: string) => {
+    try {
+      const response = await dispatch(phoneVerification(enteredCode));
+
+      if (response.type === "SIGNUP_SUCCESS") {
+        const model: ILogin = {
+          email: user.email,
+          password: user.password,
+        };
+        const response = await dispatch(signin(model));
+
+        if (response && response.type === "LOGIN_SUCCESS") {
+          // If the login was successful, store the token in AsyncStorage
+          await AsyncStorage.setItem("accessToken", "");
+          navigation.navigate("Tabs"); // Assuming this is your next screen
+          console.log("Successfully Login and navigated to Tabs");
+        }
+      } else {
+        Alert.alert(
+          "Message",
+          error,
+          [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel",
+            },
+            { text: "OK", onPress: () => console.log("OK Pressed") },
+          ],
+          { cancelable: false }
+        );
+      }
+    } catch (error) {
+      // Handle any errors that occurred during dispatch
+      console.error(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
-
       <TouchableOpacity style={styles.backIcon}>
         <View style={styles.backIconContainer}>
           <Icon name="arrow-back" size={24} color="#2B0100" />
@@ -33,12 +117,17 @@ const PhoneVerificationScreen = () => {
       </TouchableOpacity>
       <Text style={styles.headerText}>Phone Verification</Text>
       <TouchableOpacity>
-      <Image source={require('../../../assets/logo/verification.png')} style={styles.image} />
+        <Image
+          source={require("../../../assets/logo/verification.png")}
+          style={styles.image}
+        />
       </TouchableOpacity>
-     
-      <Text style={styles.subText}>Enter the OPT sent to <Text style={styles.phoneText}>+880 2568963123</Text></Text>
+
+      <Text style={styles.subText}>
+        Enter the OTP sent to{" "}
+        <Text style={styles.phoneText}>{user?.phone}</Text>
+      </Text>
       <View style={styles.codeInputContainer}>
-        
         {codeInputs.map((ref, index) => (
           <TextInput
             key={index}
@@ -48,7 +137,7 @@ const PhoneVerificationScreen = () => {
               index === 0 ? null : styles.spaceBetween,
               styles.borderBottom,
             ]}
-            value={otp[index]}
+            value={verificationCode[index]}
             onChangeText={(value) => handleInput(index, value)}
             keyboardType="number-pad"
             maxLength={1}
@@ -56,7 +145,9 @@ const PhoneVerificationScreen = () => {
         ))}
       </View>
       <TouchableOpacity style={styles.verify}>
-        <Text style={styles.verifyButtonText}>Don't receive the OTP? <Text style={styles.resendOpt}>Resend OPT</Text></Text>
+        <Text style={styles.verifyButtonText}>
+          {timer === 0 ? "Resend OTP" : `Resend OTP in ${timer} seconds`}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -70,7 +161,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   phoneText: {
-    fontWeight:"700"
+    fontWeight: "700",
   },
   image: {
     marginBottom: 50,
@@ -119,19 +210,13 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   verify: {
-    marginTop:30
+    marginTop: 30,
   },
   resendOpt: {
-    color:"#F29F05",
-    
-  },
-  spinnerContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
+    color: "#F29F05",
   },
   verifyButtonText: {
-      color:"#777777"
+    color: "#777777",
   },
 });
 
