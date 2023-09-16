@@ -4,6 +4,7 @@ import { ThunkAction } from "redux-thunk";
 import axios from "axios";
 import instance from "../../axios/axios-instance";
 import { ISignup } from "../../core/signup";
+//import { IVerify } from "../../core/verify";
 
 export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
 export const FORGOT_PASSWORD_SUCCESS = "FORGOT_PASSWORD_SUCCESS";
@@ -14,9 +15,9 @@ export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
 export const RESET_PASSWORD_FAILURE = "RESET_PASSWORD_FAILURE";
 
 export interface ResetPasswordRequestAction
-  extends Action<typeof RESET_PASSWORD_REQUEST> {}
+  extends Action<typeof RESET_PASSWORD_REQUEST> { }
 export interface ResetPasswordSuccessAction
-  extends Action<typeof RESET_PASSWORD_SUCCESS> {}
+  extends Action<typeof RESET_PASSWORD_SUCCESS> { }
 export interface ResetPasswordFailureAction
   extends Action<typeof RESET_PASSWORD_FAILURE> {
   payload: {
@@ -25,10 +26,10 @@ export interface ResetPasswordFailureAction
 }
 
 export interface ForgotPasswordRequestAction
-  extends Action<typeof FORGOT_PASSWORD_REQUEST> {}
+  extends Action<typeof FORGOT_PASSWORD_REQUEST> { }
 
 export interface ForgotPasswordSuccessAction
-  extends Action<typeof FORGOT_PASSWORD_SUCCESS> {}
+  extends Action<typeof FORGOT_PASSWORD_SUCCESS> { }
 
 export interface ForgotPasswordFailureAction
   extends Action<typeof FORGOT_PASSWORD_FAILURE> {
@@ -69,6 +70,23 @@ export interface SignupFailureAction extends Action<"SIGNUP_FAILURE"> {
   };
 }
 
+//
+export interface VerifyOtpRequestAction extends Action<"VERIFY_OTP_REQUEST"> {
+  payload: string;
+}
+
+export interface VerifyOtpSuccessAction extends Action<"VERIFY_OTP_SUCCESS"> {
+  payload: {
+    user: any;
+  };
+}
+
+export interface VerifyOtpFailureAction extends Action<"VERIFY_OTP_FAILURE"> {
+  payload: {
+    error: string;
+  };
+}
+
 export type AuthAction =
   | LoginRequestAction
   | LoginSuccessAction
@@ -81,7 +99,10 @@ export type AuthAction =
   | ResetPasswordSuccessAction
   | SignupRequestAction
   | SignupSuccessAction
-  | SignupFailureAction;
+  | SignupFailureAction
+  | VerifyOtpRequestAction
+  | VerifyOtpSuccessAction
+  | VerifyOtpFailureAction;
 
 export const signupRequest = (signupData: ISignup): SignupRequestAction => ({
   type: "SIGNUP_REQUEST",
@@ -110,6 +131,21 @@ export const loginSuccess = (user: any): LoginSuccessAction => ({
 
 export const loginFailure = (error: string): LoginFailureAction => ({
   type: "LOGIN_FAILURE",
+  payload: { error },
+});
+
+export const verifyOtpRequest = (opt: string): VerifyOtpRequestAction => ({
+  type: "VERIFY_OTP_REQUEST",
+  payload: opt,
+});
+
+export const verifyOtpSuccess = (user: any): VerifyOtpSuccessAction => ({
+  type: "VERIFY_OTP_SUCCESS",
+  payload: { user },
+});
+
+export const verifyOtpFailure = (error: string): VerifyOtpFailureAction => ({
+  type: "VERIFY_OTP_FAILURE",
   payload: { error },
 });
 
@@ -242,29 +278,6 @@ export const register = (
       debugger;
       dispatch(signupFailure(JSON.parse(error.request._response)));
       return signupFailure(JSON.parse(error.request._response));
-    }
-  };
-};
-
-export const phoneVerification = (
-  otpnumber: any
-): ThunkAction<Promise<AuthAction>, any, unknown, AuthAction> => {
-  return async (dispatch) => {
-    dispatch(signupRequest(otpnumber));
-    try {
-      const model = {
-        otp: otpnumber,
-      };
-
-      const response = await instance.post("/User/verify-otp", model);
-      
-      const otp: any = response;
-
-      dispatch(signupSuccess(otp));
-      return signupSuccess(otp);
-    } catch (error: any) {
-      dispatch(signupFailure(error.response.data.message));
-      return signupFailure(error.response.data.message);
     }
   };
 };

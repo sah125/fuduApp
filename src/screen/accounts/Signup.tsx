@@ -37,7 +37,7 @@ const SignupScreen: React.FC<SignupPageProps> = ({ navigation }) => {
   const [userName, setUserName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   //const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
+  const [phone, setPhone] = useState<string>("+27");
   const [dateOfBirth, setDateOfBirth] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -120,7 +120,11 @@ const SignupScreen: React.FC<SignupPageProps> = ({ navigation }) => {
     const response = await dispatch(register(signupData));
 
     if (response.type === "SIGNUP_SUCCESS") {
-      navigation.navigate("Phone-verification");
+      navigation.navigate("Phone-verification",{ userName,
+        email,
+        password,
+        phone,
+        dateOfBirth,});
     } else {
       Alert.alert(
         "Message",

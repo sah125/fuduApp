@@ -24,6 +24,7 @@ const AppNavigator: React.FC = () => {
       <Stack.Screen
         name="Phone-verification"
         component={PhoneVerificationScreen}
+        initialParams={{ phone: '' }}
       />
 
       <Stack.Screen
