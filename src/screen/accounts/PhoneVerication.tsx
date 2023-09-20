@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   Alert,
+ 
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +16,11 @@ import { ThunkDispatch } from "redux-thunk";
 import { phoneVerification, signin } from "../../../redux/Actions/auth.Actions";
 import { ILogin } from "../../../core/login";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Platform } from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
+
+
+
 
 interface phoneVerificationProps {
   navigation: any;
@@ -69,6 +75,23 @@ const PhoneVerificationScreen: React.FC<phoneVerificationProps> = ({
     });
   };
 
+  const getCurrentLocation = () => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+          // Here, you can do whatever you want with the latitude and longitude.
+        },
+        (error) => console.error(error),
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      );
+    } else {
+      console.log('Geolocation is not available in this browser/environment.');
+    }
+  };
+  
+
   const phoneVerificationNumber = async (enteredCode: string) => {
     try {
       const response = await dispatch(phoneVerification(enteredCode));
@@ -78,13 +101,31 @@ const PhoneVerificationScreen: React.FC<phoneVerificationProps> = ({
           email: user.email,
           password: user.password,
         };
-        const response = await dispatch(signin(model));
+        const loginresponse = await dispatch(signin(model));
+        console.log("Login Response:", loginresponse);
 
-        if (response && response.type === "LOGIN_SUCCESS") {
-          // If the login was successful, store the token in AsyncStorage
-          await AsyncStorage.setItem("accessToken", "");
-          navigation.navigate("Tabs"); // Assuming this is your next screen
-          console.log("Successfully Login and navigated to Tabs");
+        if (loginresponse && loginresponse.type === "LOGIN_SUCCESS") {
+          // Access the access token from the response
+          const accessToken = loginresponse.payload?.user?.token;
+          console.log("Access Token:", accessToken);
+  
+          if (accessToken) {
+            // If the access token is defined,
+            // store it in AsyncStorage
+            await AsyncStorage.setItem("accessToken", accessToken);
+  
+            // Get the user's current location
+            getCurrentLocation();
+  
+            navigation.navigate("Tabs"); // Assuming this is your next screen
+            console.log("Successfully Login and navigated to Tabs");
+          } else {
+            // Handle the case where the access token is undefined
+            // Get the user's current location
+            getCurrentLocation();
+            console.error("Access token is undefined");
+          }
+  
         }
       } else {
         Alert.alert(
