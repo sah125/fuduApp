@@ -27,7 +27,7 @@ const AppNavigator: React.FC = () => {
       <Stack.Screen name="Myaccount" component={AccountPage} />
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
-      <Stack.Screen name="Login" component={LoginScreen} />
+     {/* <Stack.Screen name="Login" component={LoginScreen} />*/}
 
       <Stack.Screen name="Tabs" component={BottomTabNavigator} />
 

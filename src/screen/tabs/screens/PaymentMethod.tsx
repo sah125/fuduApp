@@ -1,15 +1,32 @@
-  import React, { useState } from "react";
+  import React, {useState, useEffect, useMemo } from "react";
   import { View, Text, StyleSheet, TouchableOpacity, Image, Switch } from "react-native";
   import Icon from 'react-native-vector-icons/Ionicons';
   import BellIcon from '../../../../components/BellIcon';
-  import YourOrders from '../../../../components/YourOrders'; // Import the function
-  
+  import { increaseQuantity, decreaseQuantity, calculateSubtotal, CALCULATE_SUBTOTAL } from '../../../../redux/Actions/totalActions'; // Import your action creators
+  import { RootState } from '../../../../redux/store';
+  import { useSelector, useDispatch } from 'react-redux';
+
   const PaymentMethod = ({ totalWithVAT }: { totalWithVAT: number }) => {    const [isToggleOn, setIsToggleOn] = useState(false);
 
     const toggleSwitch = () => {
       setIsToggleOn((prev) => !prev);
     };
 
+    const items = useSelector((state: RootState) => state.total.items); // Use "state.total.items" for items
+    const total = useSelector((state: RootState) => state.total.total); // Use "state.total.total" for total
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+      // Recalculate subtotal after increasing or decreasing quantity
+      dispatch(calculateSubtotal());
+    }, [items]); 
+    
+    const quantityTotal = useMemo(() => {
+      if (typeof total === 'number') {
+        return (total - 30).toFixed(2);
+      }
+      return '';
+    }, [total]);
     return ( 
       <View style={styles.mainContainer}>
         <View style={styles.topContainer}>
@@ -81,7 +98,7 @@
         <View style={styles.totalContainer}>
         <View style={styles.totalItemContainer}>
           <Text style={styles.totalLabel}>Total <Text style={styles.smallItem}> (incl. VAT) </Text></Text>
-          <Text style={styles.totalAmount}>${totalWithVAT}</Text>
+          {total !== undefined && <Text style={styles.totalAmount}>${quantityTotal}</Text>}
           </View>
           <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.selectPaymentButton}>

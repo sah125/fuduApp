@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     height: windowHeight * 0.3,
     resizeMode: "cover",
     position: "relative",
-    top: windowHeight * 0.1,
+    top: windowHeight * 0.15,
   },
   customImage: {
     width: windowWidth * 0.5,
@@ -238,12 +238,15 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     alignSelf: "flex-end",
     marginBottom: -30,
+    marginRight: 10,
   },
   centerImage: {
     width: windowWidth * 0.15,
     height: windowWidth * 0.15,
     resizeMode: "contain",
     alignSelf: "center",
+    marginRight: 10,
+
   },
   textContainer: {
     width: 300,
@@ -281,20 +284,20 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   dot: {
-    width: 15,
-    height: 10,
+    width: 10,
+    height: 5,
     borderRadius: 5,
     backgroundColor: "#FFFFFF",
     marginHorizontal: 5,
   },
   activeDot: {
     backgroundColor: "#F29F05",
-    width: 20,
-    height: 15,
+    width: 15,
+    height: 5,
     borderRadius: 10,
   },
   doneButton: {
-    backgroundColor: "transparent",
+    
     borderRadius: 5,
   },
 });
