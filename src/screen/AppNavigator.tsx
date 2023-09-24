@@ -12,6 +12,7 @@ import AccountPage from "./LandingPage/MyAccount";
 import ForgottenPasswordScreen from "./accounts/ForgottenPassword";
 import ResetPasswordScreen from "./accounts/ResetPassword";
 import BottomTabNavigator from "./tabs/BottomTabNavigator";
+import TermCondition from './LandingPage/TermConditionPage';
 
 
 const Stack = createStackNavigator();
@@ -25,6 +26,7 @@ const AppNavigator: React.FC = () => {
 
       <Stack.Screen name="Signup" component={SignupScreen} />
       <Stack.Screen name="Myaccount" component={AccountPage} />
+      <Stack.Screen name="TermConditionPage" component={TermCondition} />
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
       <Stack.Screen name="Login" component={LoginScreen} />
@@ -48,5 +50,6 @@ export type RootStackParamList = {
   Onboarding: undefined;
   LandingPage: undefined;
   Home: undefined;
+  TermConditionPage: undefined;
 };
 export default AppNavigator;
