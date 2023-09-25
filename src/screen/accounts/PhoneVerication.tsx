@@ -16,11 +16,6 @@ import { ThunkDispatch } from "redux-thunk";
 import { phoneVerification, signin } from "../../../redux/Actions/auth.Actions";
 import { ILogin } from "../../../core/login";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Platform } from 'react-native';
-import Geolocation from '@react-native-community/geolocation';
-
-
-
 
 interface phoneVerificationProps {
   navigation: any;
