@@ -20,12 +20,12 @@ import { ThunkDispatch } from "redux-thunk";
 import { loginRequest } from "../../../redux/Actions/login.Actions";
 
 interface LoginPageProps {
-  navigation: any; 
+  navigation: any;
 }
 
 const Stack = createStackNavigator();
 
-const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
+const LoginScreen: React.FC<LoginPageProps> = ({ navigation }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -91,15 +91,19 @@ const LoginScreen : React.FC<LoginPageProps> = ({ navigation }) => {
   //const navigation = useNavigation();
 
   const handleForgotPassword = () => {
-   // navigation.navigate('ForgottenPassword','');
-
+    // navigation.navigate('ForgottenPassword','');
   };
-  
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backIcon}>
         <View style={styles.backIconContainer}>
-          <Icon name="arrow-back" size={24} color="#2B0100" />
+          <Icon
+            onPress={() => navigation.navigate("Onboarding")}
+            name="arrow-back"
+            size={24}
+            color="#2B0100"
+          />
           <Text style={styles.backText}>Back</Text>
         </View>
       </TouchableOpacity>

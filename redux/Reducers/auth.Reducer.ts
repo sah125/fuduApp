@@ -1,6 +1,5 @@
-import { Reducer } from 'redux';
-import { AuthAction } from '../Actions/auth.Actions';
-
+import { Reducer } from "redux";
+import { AuthAction } from "../Actions/auth.Actions";
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -8,22 +7,19 @@ interface AuthState {
   error: string | null;
   forgotPasswordLoading: boolean;
   forgotPasswordError: string | null;
-  resetPasswordLoading : boolean;
+  resetPasswordLoading: boolean;
   resetPasswordError: string | null;
   isSignUp: boolean;
 
   
 }
 
-
-
 const initialState: AuthState = {
- 
   isLoggedIn: false,
   user: null,
   error: null,
   forgotPasswordLoading: false,
-  forgotPasswordError: '',
+  forgotPasswordError: "",
   resetPasswordLoading: false,
   resetPasswordError: '',
   isSignUp: false,
@@ -35,22 +31,25 @@ const initialState: AuthState = {
 
 //type AuthActionTypes = "LOGIN_REQUEST" | "LOGIN_SUCCESS" | "LOGIN_FAILURE" | "FORGOT_PASSWORD_REQUEST" | "FORGOT_PASSWORD_SUCCESS" | "FORGOT_PASSWORD_FAILURE";
 
-const authReducer: Reducer<AuthState, AuthAction> = (state = initialState, action) => {
+const authReducer: Reducer<AuthState, AuthAction> = (
+  state = initialState,
+  action
+) => {
   switch (action.type) {
-    case 'LOGIN_REQUEST':
+    case "LOGIN_REQUEST":
       return {
         ...state,
         isLoggedIn: false,
         error: null,
       };
-    case 'LOGIN_SUCCESS':
+    case "LOGIN_SUCCESS":
       return {
         ...state,
         isLoggedIn: true,
         user: action.payload.user,
         error: null,
       };
-    case 'LOGIN_FAILURE':
+    case "LOGIN_FAILURE":
       return {
         ...state,
         isLoggedIn: false,
@@ -118,10 +117,6 @@ const authReducer: Reducer<AuthState, AuthAction> = (state = initialState, actio
     default:
       return state;
   }
-
-  
-
-  
 };
 
 export default authReducer;
