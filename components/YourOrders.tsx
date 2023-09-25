@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { increaseQuantity, decreaseQuantity, calculateSubtotal } from '../redux/Actions/totalActions'; // Import your action creators
+import { RootState } from '../redux/store';
 
 interface Item {
   name: string;
@@ -14,7 +17,7 @@ const OrderItem: React.FC<Item> = ({ name, quantity, price, onIncrease, onDecrea
     <View style={styles.itemContainer}>
       <View style={styles.textItem}>
         <Text style={styles.textName}>{name}</Text>
-        <Text style={styles.priceItem}>${price}</Text>
+        <Text style={styles.priceItem}>${price.toFixed(2)}</Text>
       </View>
       <View style={styles.itemQuantity}>
         <TouchableOpacity onPress={onDecrease}>
@@ -30,46 +33,28 @@ const OrderItem: React.FC<Item> = ({ name, quantity, price, onIncrease, onDecrea
 };
 
 const YourOrders = () => {
-  const [items, setItems] = useState<Item[]>([
-    { name: 'Special Chicken Burger', quantity: 1, price: 30, onIncrease: () => {}, onDecrease: () => {} },
-    { name: 'Chicago Thin Crust', quantity: 2, price: 30, onIncrease: () => {}, onDecrease: () => {} },
-    { name: 'Special Chicken Burger', quantity: 1, price: 30, onIncrease: () => {}, onDecrease: () => {} },
-    { name: 'Special Chicken Burger', quantity: 2, price: 30, onIncrease: () => {}, onDecrease: () => {} },
-  ]);
+  const items = useSelector((state: RootState) => state.total.items);
+  const total = useSelector((state: RootState) => state.total.total);
+  const dispatch = useDispatch();
 
-  const getTotalQuantity = () => {
-    return items.reduce((total, item) => (total + item.quantity), 0);
+  const increaseQuantityHandler = (index: number) => {
+    dispatch(increaseQuantity(index));
   };
 
-  const increaseQuantity = (index: number) => {
-    const updatedItems = [...items];
-    updatedItems[index].quantity++;
-    setItems(updatedItems);
+  const decreaseQuantityHandler = (index: number) => {
+    dispatch(decreaseQuantity(index));
   };
 
-  const decreaseQuantity = (index: number) => {
-    const updatedItems = [...items];
-    if (updatedItems[index].quantity > 0) {
-      updatedItems[index].quantity--;
-      setItems(updatedItems);
+  useEffect(() => {
+    dispatch(calculateSubtotal());
+  }, [items]);
+
+  const quantityTotal = useMemo(() => {
+    if (typeof total === 'number') {
+      return (total - 30).toFixed(2);
     }
-  };
-
-  const getSubtotal = () => {
-    return items.reduce((subtotal, item) => (subtotal + item.price * item.quantity), 0);
-  };
-
-  const getDiscount = () => {
-    // Calculate your discount logic here
-    return 30; // Replace with the actual discount calculation
-  };
-
-  const getTotalWithVAT = () => {
-    const subtotal = getSubtotal();
-    const discount = getDiscount();
-    const VAT = 0.1; // 10% VAT rate, you can adjust this
-    return (subtotal - discount) * (1 + VAT);
-  };
+    return '';
+  }, [total]);
 
   return (
     <View style={styles.container}>
@@ -81,32 +66,40 @@ const YourOrders = () => {
             name={item.name}
             price={item.price}
             quantity={item.quantity}
-            onIncrease={() => increaseQuantity(index)}
-            onDecrease={() => decreaseQuantity(index)}
+            onIncrease={() => increaseQuantityHandler(index)}
+            onDecrease={() => decreaseQuantityHandler(index)}
           />
         ))}
       </View>
       <View style={styles.checkoutContainer}>
-        <View style={styles.checkoutItem}>
-          <Text style={styles.textSubtotal}>Subtotal</Text>
-          <Text style={styles.subtotal}>${getSubtotal()}</Text>
+        <View style={styles.cardContent}>
+          <View style={styles.checkoutItem}>
+            <Text style={styles.textSubtotal}>Subtotal</Text>
+            {total !== undefined && <Text style={styles.subtotal}>${total.toFixed(2)}</Text>}
+          </View>
+          <View style={styles.checkoutItem}>
+            <Text style={styles.smallItem}>Discount</Text>
+            <Text style={styles.discount}>${30}</Text>
+          </View>
+          <View style={styles.checkoutItem}>
+            <Text style={styles.smallItem}>Delivery Fee</Text>
+            <Text style={styles.smallItem}>Free</Text>
+          </View>
         </View>
-        <View style={styles.checkoutItem}>
-          <Text style={styles.smallItem}>Discount</Text>
-          <Text style={styles.discount}>${getDiscount()}</Text>
+      </View>
+      <View style={styles.checkoutContainertTotal}>
+        <View style={styles.cardContent}>
+          <View style={styles.checkoutItem}>
+            <Text>
+              Total<Text style={styles.smallItem}> (incl. VAT) </Text>
+            </Text>
+            <Text style={styles.textSubtotal}></Text>
+            {total !== undefined && <Text style={styles.subtotal}>${quantityTotal}</Text>}
+          </View>
+          <TouchableOpacity style={styles.checkoutButton}>
+            <Text style={styles.checkoutText}>Go To Checkout</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.checkoutItem}>
-          <Text style={styles.smallItem}>Delivery Fee</Text>
-          <Text style={styles.smallItem}>Free</Text>
-        </View>
-        <View style={styles.checkoutItem}>
-          <Text>Total<Text style={styles.smallItem}> (incl. VAT) </Text>
-          </Text>
-          <Text style={styles.total}>${getTotalWithVAT()}</Text>
-        </View>
-        <TouchableOpacity style={styles.checkoutButton}>
-          <Text style={styles.checkoutText}>Go To Checkout</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -116,7 +109,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    
   },
   title: {
     fontSize: 14,
@@ -174,9 +166,11 @@ const styles = StyleSheet.create({
     fontSize: 8,
   },
   checkoutContainer: {
-    flexDirection: 'column',
-    fontSize: 8,
-    
+    position: 'relative',
+  },
+  checkoutContainertTotal: {},
+  cardContent: {
+    padding: 10,
   },
   checkoutItem: {
     flexDirection: 'row',
@@ -192,7 +186,6 @@ const styles = StyleSheet.create({
   subtotal: {
     fontSize: 8,
     fontWeight: '700',
-   
   },
   smallItem: {
     fontSize: 8,
@@ -202,15 +195,14 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: '#848282',
   },
-  total: {
-    //styles here
-
-  },
+  total: {},
   checkoutButton: {
     backgroundColor: '#E03636',
     borderRadius: 5,
     padding: 10,
     marginTop: 10,
+    width: '70%',
+    alignSelf: 'center',
   },
   checkoutText: {
     fontSize: 12,

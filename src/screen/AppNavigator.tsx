@@ -22,7 +22,7 @@ const AppNavigator: React.FC = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
      { < Stack.Screen name="Signup" component={SignupScreen} />}
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
-      <Stack.Screen name="Login" component={LoginScreen} />
+     {/* <Stack.Screen name="Login" component={LoginScreen} />*/}
 
       <Stack.Screen name="Tabs" component={BottomTabNavigator} />
 

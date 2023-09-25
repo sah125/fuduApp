@@ -1,7 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
-import CartScreen from "./screens/CartScreen";
+import PaymentMethod from './screens/PaymentMethod';
 import HomeScreen from "./screens/HomeScreen";
 import FoodOrderScreen from "./screens/FoodOrderScreen";
 import NearByScreen from "./screens/NearByScreen";
@@ -51,7 +51,7 @@ const BottomTabNavigator = () => {
       />
       <BottomTab.Screen
         name="Cart"
-        component={CartScreen}
+        component={PaymentMethod}
         options={{
           tabBarLabel: "Cart",
           tabBarActiveTintColor:"#D90504",
