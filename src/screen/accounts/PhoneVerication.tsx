@@ -13,11 +13,13 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { phoneVerification, signin } from "../../../redux/Actions/auth.Actions";
+import { phoneVerification, resendOpt, resendOtpRequest, signin } from "../../../redux/Actions/auth.Actions";
 import { ILogin } from "../../../core/login";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
+import { useRoute } from '@react-navigation/native';
+import { ISignup } from "../../../core/signup";
 
 
 
@@ -38,11 +40,19 @@ const PhoneVerificationScreen: React.FC<phoneVerificationProps> = ({
     "",
     "",
   ]);
+  
+
   const codeInputs = Array.from({ length: 6 }, () => useRef(null));
   const [timer, setTimer] = useState(60); // Initial timer value in seconds
   const [redirected, setRedirected] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { user, error } = useSelector((state: any) => state?.auth);
+  const { user, error,isResendOpt } = useSelector((state: any) => state?.auth);
+  
+  const route = useRoute();
+  const { signupData } = route.params as { signupData: ISignup | undefined };
+
+  
+  
 
   useEffect(() => {
     if (timer > 0 && !redirected) {
@@ -74,7 +84,24 @@ const PhoneVerificationScreen: React.FC<phoneVerificationProps> = ({
       return newCode;
     });
   };
-
+  
+  const handleResendOTP = async () => {
+    try {
+      if (signupData) {
+        // Only dispatch the action if signupData is defined
+        await dispatch(resendOtpRequest(signupData));
+        await dispatch(resendOpt(signupData));
+      } else {
+        console.error("signupData is undefined");
+        // Handle the case where signupData is undefined
+      }
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+    }
+    // Reset the timer to 60 seconds
+    setTimer(60);
+  };
+  
   const getCurrentLocation = () => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -185,7 +212,7 @@ const PhoneVerificationScreen: React.FC<phoneVerificationProps> = ({
           />
         ))}
       </View>
-      <TouchableOpacity style={styles.verify}>
+      <TouchableOpacity style={styles.verify} onPress={handleResendOTP} >
         <Text style={styles.verifyButtonText}>
           {timer === 0 ? "Resend OTP" : `Resend OTP in ${timer} seconds`}
         </Text>

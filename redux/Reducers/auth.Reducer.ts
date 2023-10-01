@@ -8,17 +8,17 @@ interface AuthState {
   error: string | null;
   forgotPasswordLoading: boolean;
   forgotPasswordError: string | null;
-  resetPasswordLoading : boolean;
+  resetPasswordLoading: boolean;
   resetPasswordError: string | null;
   isSignUp: boolean;
+  isResendOpt: boolean;
 
-  
 }
 
 
 
 const initialState: AuthState = {
- 
+
   isLoggedIn: false,
   user: null,
   error: null,
@@ -27,8 +27,9 @@ const initialState: AuthState = {
   resetPasswordLoading: false,
   resetPasswordError: '',
   isSignUp: false,
-  
- 
+  isResendOpt: false,
+
+
 };
 
 
@@ -58,70 +59,92 @@ const authReducer: Reducer<AuthState, AuthAction> = (state = initialState, actio
         error: action.payload.error,
       };
 
-      case 'FORGOT_PASSWORD_REQUEST':
-        return {
-          ...state,
-          forgotPasswordLoading: true,
-          forgotPasswordError: '',
-        };
-      case 'FORGOT_PASSWORD_SUCCESS':
-        return {
-          ...state,
-          forgotPasswordLoading: false,
-        };
-      case 'FORGOT_PASSWORD_FAILURE':
-        return {
-          ...state,
-          forgotPasswordLoading: false,
-          forgotPasswordError: action.payload.error,
-        };
-   
-        case 'RESET_PASSWORD_REQUEST':
-          return {
-            ...state,
-            resetPasswordLoading: false,
-            resetPasswordError: '',
-          };
-        case 'RESET_PASSWORD_SUCCESS': 
+    case 'FORGOT_PASSWORD_REQUEST':
+      return {
+        ...state,
+        forgotPasswordLoading: true,
+        forgotPasswordError: '',
+      };
+    case 'FORGOT_PASSWORD_SUCCESS':
+      return {
+        ...state,
+        forgotPasswordLoading: false,
+      };
+    case 'FORGOT_PASSWORD_FAILURE':
+      return {
+        ...state,
+        forgotPasswordLoading: false,
+        forgotPasswordError: action.payload.error,
+      };
+
+    case 'RESET_PASSWORD_REQUEST':
+      return {
+        ...state,
+        resetPasswordLoading: false,
+        resetPasswordError: '',
+      };
+    case 'RESET_PASSWORD_SUCCESS':
+
+      return {
+        ...state,
+        resetPasswordLoading: false,
+      };
+    case 'RESET_PASSWORD_FAILURE':
+      return {
+        ...state,
+        resetPasswordLoading: false,
+        resetPasswordError: action.payload.error,
+      };
+    case 'SIGNUP_REQUEST':
+      return {
+        ...state,
+        isSignUp: true,
+        error: null,
+      };
+    case 'SIGNUP_SUCCESS':
+      return {
+        ...state,
+        isSignUp: false,
+        isLoggedIn: true,
+        user: action.payload.user, // Assuming the user data is available in the payload.
+        error: null,
+      };
+    case 'SIGNUP_FAILURE':
+      return {
+        ...state,
+        isSignUp: false,
+        error: action.payload.error,
+      };
+    case 'RESEND_OTP_REQUEST':
+      return {
         
-          return {
-          ...state,
-          resetPasswordLoading: false,
-        } ;
-        case 'RESET_PASSWORD_FAILURE':
-        return {
-          ...state,
-            resetPasswordLoading: false,
-            resetPasswordError: action.payload.error,
-        };
-        case 'SIGNUP_REQUEST':
-          return {
-            ...state,
-            isSignUp: true,
-            error: null,
-          };
-          case 'SIGNUP_SUCCESS':
-            return {
-              ...state,
-              isSignUp: false,
-              isLoggedIn: true,
-              user: action.payload.user, // Assuming the user data is available in the payload.
-              error: null,
-            };
-            case 'SIGNUP_FAILURE':
-              return {
-                ...state,
-                isSignUp: false,
-                error: action.payload.error,
-              };
+        ...state,
+        isResendOpt: true,
+        signupData: action.payload, // Store signupData in the state
+        error: null,
+      };
+    case 'RESEND_OTP_SUCCESS':
+      return {
+        ...state,
+        isResendOpt: false,
+        isLoggedIn: true,
+        user: action.payload.user, // Assuming the user data is available in the payload.
+        error: null,
+      };
+    case 'RESEND_OTP_FAILURE':
+      return {
+        ...state,
+        isResendOpt: false,
+        error: action.payload.error,
+      };
 
     default:
       return state;
   }
 
-  
 
-  
+
+
 };
 
 export default authReducer;
