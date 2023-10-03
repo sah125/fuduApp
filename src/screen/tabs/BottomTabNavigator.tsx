@@ -1,10 +1,11 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
-import CartScreen from "./screens/CartScreen";
+import PaymentMethod from './screens/PaymentMethod';
 import HomeScreen from "./screens/HomeScreen";
-import MyOrderScreen from "./screens/MyOrderScreen";
+import FoodOrderScreen from "./screens/FoodOrderScreen";
 import NearByScreen from "./screens/NearByScreen";
+import LoginScreen from "../accounts/Login"
 
 const BottomTab = createBottomTabNavigator();
 
@@ -28,7 +29,7 @@ const BottomTabNavigator = () => {
       />
       <BottomTab.Screen
         name="MyOrder"
-        component={MyOrderScreen}
+        component={FoodOrderScreen}
         options={{
           tabBarLabel: "My Order",
           tabBarActiveTintColor:"#D90504",
@@ -50,7 +51,7 @@ const BottomTabNavigator = () => {
       />
       <BottomTab.Screen
         name="Cart"
-        component={CartScreen}
+        component={PaymentMethod}
         options={{
           tabBarLabel: "Cart",
           tabBarActiveTintColor:"#D90504",
@@ -61,7 +62,7 @@ const BottomTabNavigator = () => {
       />
       <BottomTab.Screen
         name="Account"
-        component={CartScreen}
+        component={LoginScreen}
         options={{
           tabBarLabel: "Account",
           tabBarActiveTintColor:"#D90504",

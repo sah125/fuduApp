@@ -1,15 +1,19 @@
 // AppNavigator.tsx
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import MyOnboarding from "../screen/LandingPage/MyOnboarding";
+import FuduOnboarding from "./LandingPage/FuduOnboarding";
 import LandingPage from "../screen/LandingPage/LandingPage";
 import HomePage from "./HomePage";
+//import LoginScreen from "./accounts/Login"
 import LoginScreen from "./accounts/Login";
 import SignupScreen from "./accounts/Signup";
 import PhoneVerificationScreen from "./accounts/PhoneVerication";
+import AccountPage from "./LandingPage/MyAccount";
 import ForgottenPasswordScreen from "./accounts/ForgottenPassword";
 import ResetPasswordScreen from "./accounts/ResetPassword";
 import BottomTabNavigator from "./tabs/BottomTabNavigator";
+import TermCondition from './LandingPage/TermConditionPage';
+
 
 const Stack = createStackNavigator();
 
@@ -18,7 +22,8 @@ const AppNavigator: React.FC = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
      { < Stack.Screen name="Signup" component={SignupScreen} />}
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
-      <Stack.Screen name="Login" component={LoginScreen} />
+     {/* <Stack.Screen name="Login" component={LoginScreen} />*/}
+
       <Stack.Screen name="Tabs" component={BottomTabNavigator} />
 
       <Stack.Screen
@@ -32,10 +37,6 @@ const AppNavigator: React.FC = () => {
         component={ForgottenPasswordScreen}
       />
       <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
-
-      <Stack.Screen name="Onboarding" component={MyOnboarding} />
-      <Stack.Screen name="LandingPage" component={LandingPage} />
-      <Stack.Screen name="Home" component={HomePage} />
     </Stack.Navigator>
   );
 };
@@ -43,5 +44,6 @@ export type RootStackParamList = {
   Onboarding: undefined;
   LandingPage: undefined;
   Home: undefined;
+  TermConditionPage: undefined;
 };
 export default AppNavigator;
