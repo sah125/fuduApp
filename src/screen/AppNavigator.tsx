@@ -20,13 +20,13 @@ const Stack = createStackNavigator();
 const AppNavigator: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Onboarding" component={FuduOnboarding} />
+     {/* <Stack.Screen name="Onboarding" component={FuduOnboarding} />
       <Stack.Screen name="LandingPage" component={LandingPage} />
       <Stack.Screen name="Home" component={HomePage} />
 
       <Stack.Screen name="Signup" component={SignupScreen} />
       <Stack.Screen name="Myaccount" component={AccountPage} />
-      <Stack.Screen name="TermConditionPage" component={TermCondition} />
+  <Stack.Screen name="TermConditionPage" component={TermCondition} />*/}
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
      {/* <Stack.Screen name="Login" component={LoginScreen} />*/}
