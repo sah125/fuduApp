@@ -118,13 +118,13 @@ const SignupScreen: React.FC<SignupPageProps> = ({ navigation }) => {
     };
 
     const response = await dispatch(register(signupData));
-
+/*navigation.navigate("Phone-verification",{ userName,
+email,
+password,
+phone,
+dateOfBirth,}); */
     if (response.type === "SIGNUP_SUCCESS") {
-      navigation.navigate("Phone-verification",{ userName,
-        email,
-        password,
-        phone,
-        dateOfBirth,});
+      navigation.navigate("Phone-verification",{ signupData});
     } else {
       Alert.alert(
         "Message",

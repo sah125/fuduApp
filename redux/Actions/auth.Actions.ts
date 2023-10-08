@@ -69,6 +69,25 @@ export interface SignupFailureAction extends Action<"SIGNUP_FAILURE"> {
   };
 }
 
+export interface ResendOtpRequestAction extends  Action<"RESEND_OTP_REQUEST">{
+  payload: ISignup;
+
+}
+
+export interface ResendOtpSuccessAction extends  Action<"RESEND_OTP_SUCCESS">{
+  payload: {
+    user: any;
+  };
+
+}
+
+export interface ResendOtpFailureAction extends  Action<"RESEND_OTP_FAILURE">{
+  payload: {
+    error: string;
+  };
+
+}
+
 export type AuthAction =
   | LoginRequestAction
   | LoginSuccessAction
@@ -81,7 +100,10 @@ export type AuthAction =
   | ResetPasswordSuccessAction
   | SignupRequestAction
   | SignupSuccessAction
-  | SignupFailureAction;
+  | SignupFailureAction
+  | ResendOtpRequestAction
+  | ResendOtpSuccessAction
+  | ResendOtpFailureAction;
 
 export const signupRequest = (signupData: ISignup): SignupRequestAction => ({
   type: "SIGNUP_REQUEST",
@@ -95,6 +117,21 @@ export const signupSuccess = (user: any): SignupSuccessAction => ({
 
 export const signupFailure = (error: string): SignupFailureAction => ({
   type: "SIGNUP_FAILURE",
+  payload: { error },
+});
+
+export const resendOtpRequest = (signupData: ISignup):ResendOtpRequestAction => ({
+  type: "RESEND_OTP_REQUEST",
+  payload: signupData,
+});
+
+export const resendOtpSuccess = (user: any): ResendOtpSuccessAction => ({
+  type: "RESEND_OTP_SUCCESS",
+  payload:  {user },
+});
+
+export const resendOtpFailure = (error: string): ResendOtpFailureAction => ({
+  type: "RESEND_OTP_FAILURE",
   payload: { error },
 });
 
@@ -268,6 +305,28 @@ export const phoneVerification = (
     } catch (error: any) {
       dispatch(signupFailure(error.response.data.message));
       return signupFailure(error.response.data.message);
+    }
+  };
+};
+
+export const resendOpt = (
+  signupData: ISignup
+): ThunkAction<Promise<AuthAction>, any, unknown, AuthAction> => {
+  return async (dispatch) => {
+    dispatch(resendOtpRequest(signupData));
+    try {
+      // Make a POST request to your signup API endpoint
+      const response = await instance.post("/User/register", signupData);
+
+      // Assuming the API response contains the user data
+      const user: any = response.data?.tempUserData;
+
+      dispatch(resendOtpSuccess(user));
+      return resendOtpSuccess(user);
+    } catch (error: any) {
+      debugger
+      dispatch(resendOtpFailure(JSON.parse(error.request._response)));
+      return resendOtpFailure(JSON.parse(error.request._response));
     }
   };
 };
