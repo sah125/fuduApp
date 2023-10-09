@@ -96,8 +96,8 @@ const FuduOnboarding: React.FC<HomePageProps> = ({ navigation }) => {
     setActiveSlide(index);
   };
   const handleDone = () => {
-    navigation.navigate("Home"); // Navigate to the "Home" screen
-  };
+    navigation.navigate("Home"); 
+   };
   const DoneButton: React.FC = () => (
     <TouchableOpacity onPress={handleDone} style={styles.doneButton}>
       <Icon name="check-circle" size={50} color="white" />

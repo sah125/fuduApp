@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { increaseQuantity, decreaseQuantity, calculateSubtotal } from '../redux/Actions/totalActions'; // Import your action creators
+import { increaseQuantity, decreaseQuantity, calculateSubtotal } from '../redux/Actions/totalActions';
 import { RootState } from '../redux/store';
+import { useNavigation } from '@react-navigation/native';
 
 interface Item {
   name: string;
@@ -33,6 +34,10 @@ const OrderItem: React.FC<Item> = ({ name, quantity, price, onIncrease, onDecrea
 };
 
 const YourOrders = () => {
+  const navigation = useNavigation();
+  const goToPaymentMethod = () => {
+   // navigation.navigate('PaymentMethod');
+  };
   const items = useSelector((state: RootState) => state.total.items);
   const total = useSelector((state: RootState) => state.total.total);
   const dispatch = useDispatch();
@@ -51,6 +56,7 @@ const YourOrders = () => {
 
   const quantityTotal = useMemo(() => {
     if (typeof total === 'number') {
+      // Apply the discount of 30
       return (total - 30).toFixed(2);
     }
     return '';
@@ -87,7 +93,7 @@ const YourOrders = () => {
           </View>
         </View>
       </View>
-      <View style={styles.checkoutContainertTotal}>
+      <View style={styles.checkoutContainer}>
         <View style={styles.cardContent}>
           <View style={styles.checkoutItem}>
             <Text>
@@ -96,7 +102,7 @@ const YourOrders = () => {
             <Text style={styles.textSubtotal}></Text>
             {total !== undefined && <Text style={styles.subtotal}>${quantityTotal}</Text>}
           </View>
-          <TouchableOpacity style={styles.checkoutButton}>
+          <TouchableOpacity style={styles.checkoutButton} onPress={goToPaymentMethod}>
             <Text style={styles.checkoutText}>Go To Checkout</Text>
           </TouchableOpacity>
         </View>
@@ -104,6 +110,7 @@ const YourOrders = () => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
