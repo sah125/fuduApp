@@ -20,7 +20,7 @@ const Stack = createStackNavigator();
 const AppNavigator: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-     { /*< Stack.Screen name="Signup" component={SignupScreen} />*/}
+     { < Stack.Screen name="Signup" component={SignupScreen} />}
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
      {/* <Stack.Screen name="Login" component={LoginScreen} />*/}
 
