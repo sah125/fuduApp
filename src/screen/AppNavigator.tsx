@@ -12,24 +12,23 @@ import AccountPage from "./LandingPage/MyAccount";
 import ForgottenPasswordScreen from "./accounts/ForgottenPassword";
 import ResetPasswordScreen from "./accounts/ResetPassword";
 import BottomTabNavigator from "./tabs/BottomTabNavigator";
-import TermCondition from './LandingPage/TermConditionPage';
-
+import TermCondition from "./LandingPage/TermConditionPage";
 
 const Stack = createStackNavigator();
 
 const AppNavigator: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-     { < Stack.Screen name="Signup" component={SignupScreen} />}
+      {<Stack.Screen name="Signup" component={SignupScreen} />}
       {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
-     {/* <Stack.Screen name="Login" component={LoginScreen} />*/}
+      {/* <Stack.Screen name="Login" component={LoginScreen} />*/}
 
       <Stack.Screen name="Tabs" component={BottomTabNavigator} />
 
       <Stack.Screen
         name="Phone-verification"
         component={PhoneVerificationScreen}
-        initialParams={{ phone: '' }}
+        initialParams={{ phone: "" }}
       />
 
       <Stack.Screen

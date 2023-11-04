@@ -16,7 +16,6 @@ import { ThunkDispatch } from "redux-thunk";
 import { phoneVerification, resendOpt, resendOtpRequest, signin } from "../../../redux/Actions/auth.Actions";
 import { ILogin } from "../../../core/login";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-<<<<<<< HEAD
 import { Platform } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 import { useRoute } from '@react-navigation/native';
@@ -24,8 +23,6 @@ import { ISignup } from "../../../core/signup";
 
 
 
-=======
->>>>>>> 59f01ded75c7a2397bc2751d2b571ec8017112ab
 
 interface phoneVerificationProps {
   navigation: any;

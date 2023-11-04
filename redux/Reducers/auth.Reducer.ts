@@ -15,10 +15,8 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-<<<<<<< HEAD
 
-=======
->>>>>>> 59f01ded75c7a2397bc2751d2b571ec8017112ab
+
   isLoggedIn: false,
   user: null,
   error: null,
@@ -144,13 +142,6 @@ const authReducer: Reducer<AuthState, AuthAction> = (
     default:
       return state;
   }
-<<<<<<< HEAD
-
-
-
-
-=======
->>>>>>> 59f01ded75c7a2397bc2751d2b571ec8017112ab
 };
 
 export default authReducer;
